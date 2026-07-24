@@ -6,9 +6,6 @@
     <title>Kausser Barometer - Ein besonderes Geschenk ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ==========================================================================
-           1. BASIS STYLES & FARBSCHEMA
-           ========================================================================== */
         :root {
             --bg-dark: #0f0b15;
             --card-bg: rgba(255, 255, 255, 0.05);
@@ -42,7 +39,6 @@
             position: relative;
         }
 
-        /* Partikel / Hintergrund-Animation */
         #canvas-particles {
             position: fixed;
             top: 0;
@@ -53,32 +49,32 @@
             z-index: 1;
         }
 
-        /* Musik Control Button */
         .music-control {
             position: fixed;
             top: 20px;
             right: 20px;
             z-index: 100;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 75, 114, 0.25);
             backdrop-filter: blur(10px);
-            border: 1px solid var(--card-border);
+            border: 1px solid var(--accent-rose);
             color: var(--text-light);
-            padding: 10px 18px;
+            padding: 12px 20px;
             border-radius: 30px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 75, 114, 0.3);
         }
 
         .music-control:hover {
-            background: rgba(255, 75, 114, 0.3);
+            background: rgba(255, 75, 114, 0.5);
             transform: scale(1.05);
         }
 
-        /* Hauptcontainer für alle Slides */
         .app-container {
             width: 90%;
             max-width: 650px;
@@ -100,7 +96,6 @@
             overflow: hidden;
         }
 
-        /* Slide Transitionen */
         .slide {
             display: none;
             width: 100%;
@@ -135,7 +130,6 @@
             font-size: 1rem;
         }
 
-        /* Standard Buttons */
         .btn {
             background: linear-gradient(135deg, var(--accent-rose), #e03a60);
             color: white;
@@ -156,9 +150,6 @@
             box-shadow: 0 12px 30px rgba(255, 75, 114, 0.6);
         }
 
-        /* ==========================================================================
-           SLIDE 1: FINGERPRINT SCAN
-           ========================================================================== */
         .scan-container {
             margin: 20px 0;
             cursor: pointer;
@@ -188,9 +179,6 @@
             color: var(--accent-glow);
         }
 
-        /* ==========================================================================
-           SLIDE 2: FRAGE / QUIZ
-           ========================================================================== */
         .quiz-options {
             display: flex;
             flex-direction: column;
@@ -226,9 +214,6 @@
             transition: opacity 0.5s ease;
         }
 
-        /* ==========================================================================
-           SLIDE 3: ERINNERUNGS-LEVEL (TIMELINE)
-           ========================================================================== */
         .timeline {
             display: flex;
             flex-direction: column;
@@ -261,9 +246,6 @@
             margin-top: 5px;
         }
 
-        /* ==========================================================================
-           SLIDE 4: INTERAKTIVES THERMOMETER & GEHEIMNACHRICHT
-           ========================================================================== */
         .interactive-section {
             display: flex;
             flex-direction: column;
@@ -272,7 +254,6 @@
             width: 100%;
         }
 
-        /* Thermometer Display */
         .thermo-box {
             display: flex;
             align-items: center;
@@ -289,7 +270,6 @@
             color: var(--gold);
         }
 
-        /* Hold Button Secret Message */
         .hold-btn {
             background: rgba(255, 255, 255, 0.08);
             border: 2px dashed var(--accent-rose);
@@ -320,9 +300,6 @@
             min-height: 30px;
         }
 
-        /* ==========================================================================
-           SLIDE 5: KAUSSER BAROMETER (FEHLER-SKALA)
-           ========================================================================== */
         .barometer-container {
             width: 100%;
             margin: 20px 0;
@@ -377,26 +354,28 @@
             100% { opacity: 1; transform: scale(1.02); }
         }
 
-        /* ==========================================================================
-           SLIDE 6: EMOTIONALER ABSCHLUSS
-           ========================================================================== */
         .photo-frame {
-            width: 170px;
-            height: 170px;
-            border-radius: 50%;
+            width: 220px;
+            height: 220px;
+            border-radius: 20px;
             border: 4px solid var(--accent-rose);
-            box-shadow: 0 0 30px rgba(255, 75, 114, 0.6);
+            box-shadow: 0 0 35px rgba(255, 75, 114, 0.7);
             overflow: hidden;
-            margin: 15px 0;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 1.5s ease;
+            margin: 20px 0;
+            opacity: 1;
+            transform: scale(1);
+            transition: all 1.2s ease;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .photo-frame img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
         }
 
         .pulsing-heart {
@@ -428,11 +407,22 @@
             color: #ffeaa7;
             line-height: 1.5;
             margin-top: 15px;
-            opacity: 0;
-            transition: opacity 2s ease;
+            opacity: 1;
         }
 
-        /* Responsive Anpassungen */
+        #audio-status {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.7);
+            color: #ff758c;
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            display: none;
+            z-index: 1000;
+        }
+
         @media (max-width: 480px) {
             .app-container {
                 padding: 30px 20px;
@@ -441,35 +431,30 @@
             h1 { font-size: 1.8rem; }
             h2 { font-size: 1.5rem; }
             .barometer-display { font-size: 1.8rem; }
+            .photo-frame { width: 180px; height: 180px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Hintergrundelememente & Audio -->
     <canvas id="canvas-particles"></canvas>
 
-    <!-- 
-        ========================================================================
-        HINWEIS ZUR MUSIKDATEI:
-        1. Speichere deine Lieblingsmusik als "musik.mp3" im selben Ordner ab.
-        2. Der Button oben rechts erlaubt das An- und Ausschalten.
-        ========================================================================
-    -->
-    <audio id="bg-music" loop>
+    <audio id="bg-music" loop preload="auto">
         <source src="musik.mp3" type="audio/mpeg">
-        Dein Browser unterstützt kein Audio-Element.
+        <source src="Musik.mp3" type="audio/mpeg">
+        <source src="musik.MP3" type="audio/mpeg">
+        <source src="audio.mp3" type="audio/mpeg">
     </audio>
 
     <button class="music-control" id="music-btn" onclick="toggleMusic()">
-        🎵 Musik an
+        🎵 Musik abspielen
     </button>
+
+    <div id="audio-status"></div>
 
     <div class="app-container">
 
-        <!-- ==========================================
-             SLIDE 1: FINGERPRINT SCAN
-             ========================================== -->
+        <!-- SLIDE 1 -->
         <div class="slide active" id="slide-1">
             <div class="pulsing-heart">❤️</div>
             <h2>Willkommen, Kausser</h2>
@@ -479,7 +464,7 @@
                 <svg class="fingerprint-icon" viewBox="0 0 24 24">
                     <path d="M12,1A11,11,0,0,0,1,12a1,1,0,0,0,2,0,9,9,0,0,1,18,0,1,1,0,0,0,2,0A11,11,0,0,0,12,1Z"/>
                     <path d="M12,5a7,7,0,0,0-7,7,1,1,0,0,0,2,0,5,5,0,0,1,10,0,1,1,0,0,0,2,0A7,7,0,0,0,12,5Z"/>
-                    <path d="M12,9a3,3,0,0,0-3,3,1,1,0,0,0,2,0,1,1,0,0,1,2,0,1,1,0,0,0,2,0A3,3,0,0,0,12,9Z"/>
+                    <path d="M12,9a3,3,0,0,0-3,3,1,1,0,0,0,2,0,1,1,0,0,0,2,0,1,1,0,0,0,2,0A3,3,0,0,0,12,9Z"/>
                     <path d="M12,13a1,1,0,0,0-1,1,1,1,0,0,0,2,0A1,1,0,0,0,12,13Z"/>
                 </svg>
             </div>
@@ -488,9 +473,7 @@
             <button class="btn" id="slide1-next" style="display: none;" onclick="nextSlide(2)">Weiter ❤️</button>
         </div>
 
-        <!-- ==========================================
-             SLIDE 2: QUIZ / DISTANZ
-             ========================================== -->
+        <!-- SLIDE 2 -->
         <div class="slide" id="slide-2">
             <h2>Eine kurze Frage...</h2>
             <p>Wie weit ist meine Liebe bereit für dich zu gehen?</p>
@@ -505,9 +488,7 @@
             <button class="btn" id="slide2-next" style="display: none;" onclick="nextSlide(3)">Weiter ✨</button>
         </div>
 
-        <!-- ==========================================
-             SLIDE 3: ERINNERUNGS-LEVEL
-             ========================================== -->
+        <!-- SLIDE 3 -->
         <div class="slide" id="slide-3">
             <h2>Unsere Reise</h2>
             <p>Jede Stufe mit dir ist unbezahlbar:</p>
@@ -530,21 +511,17 @@
             <button class="btn" onclick="nextSlide(4)">Zum Barometer &rarr;</button>
         </div>
 
-        <!-- ==========================================
-             SLIDE 4: INTERAKTIVE SPIELEREIEN
-             ========================================== -->
+        <!-- SLIDE 4 -->
         <div class="slide" id="slide-4">
             <h2>Liebes-Temperatur</h2>
             <p>Ein kleiner Test für zwischendurch...</p>
 
             <div class="interactive-section">
-                <!-- Liebestemperatur -->
                 <div class="thermo-box">
                     <span>🌡️ Temperatur:</span>
                     <span class="thermo-value" id="thermo-val">36°C</span>
                 </div>
 
-                <!-- Geheimnachricht Button -->
                 <div class="hold-btn" id="hold-button">
                     <div class="hold-progress" id="hold-progress"></div>
                     <span style="position: relative; z-index: 2;">🔒 Halte gedrückt für Geheimnachricht</span>
@@ -556,9 +533,7 @@
             <button class="btn" onclick="nextSlide(5)">Bereit fürs Barometer? 🔥</button>
         </div>
 
-        <!-- ==========================================
-             SLIDE 5: KAUSSER BAROMETER
-             ========================================== -->
+        <!-- SLIDE 5 -->
         <div class="slide" id="slide-5">
             <div class="barometer-title">KAUSSER BAROMETER</div>
             <p>Lass uns deine genaue Liebe messen...</p>
@@ -576,39 +551,36 @@
             <button class="btn" id="slide5-next" style="display: none;" onclick="nextSlide(6)">Zum Ergebnis ❤️</button>
         </div>
 
-        <!-- ==========================================
-             SLIDE 6: EMOTIONALER ABSCHLUSS
-             ========================================== -->
+        <!-- SLIDE 6 -->
         <div class="slide" id="slide-6">
             <div class="pulsing-heart">❤️</div>
             
-            <!-- 
-                ========================================================================
-                HINWEIS ZUM FOTO:
-                1. Speichere dein Foto als "foto.jpg" im selben Ordner ab.
-                2. Es wird hier automatisch geladen und eingeblendet.
-                ========================================================================
-            -->
-            <div class="photo-frame" id="final-photo">
-                <img src="foto.jpg" alt="Unser gemeinsames Foto" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=500&auto=format&fit=crop'">
+            <div class="photo-frame">
+                <img id="user-photo" src="foto.jpg" alt="Unser Foto" onerror="tryNextImage(this)">
             </div>
 
-            <div class="typing-text" id="typewriter-text"></div>
+            <div class="typing-text" id="typewriter-text">Ergebnis: Nicht messbar. ❤️</div>
 
-            <div class="final-personal-text" id="final-personal-text">
+            <div class="final-personal-text">
                 "Keine Zahl kann beschreiben, wie viel du mir bedeutest. Danke, dass du mein Leben schöner machst. Ich freue mich auf alles, was noch vor uns liegt."
             </div>
         </div>
 
     </div>
 
-    <!-- ==========================================================================
-       JAVASCRIPT LOGIK
-       ========================================================================== -->
     <script>
-        /* --------------------------------------------------
-           1. NAVIGATION ZWISCHEN DEN SLIDES
-           -------------------------------------------------- */
+        const imageFallbacks = ['foto.jpg', 'Foto.jpg', 'foto.jpeg', 'Foto.jpeg', 'foto.png', 'Foto.png', 'image.jpg'];
+        let imgIdx = 0;
+
+        function tryNextImage(imgElement) {
+            imgIdx++;
+            if (imgIdx < imageFallbacks.length) {
+                imgElement.src = imageFallbacks[imgIdx];
+            } else {
+                imgElement.src = 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=500&auto=format&fit=crop';
+            }
+        }
+
         let currentSlide = 1;
 
         function nextSlide(slideNumber) {
@@ -621,22 +593,17 @@
 
             setTimeout(() => {
                 currentSlide = slideNumber;
-                nextEl.classList.add('active');
+                if (nextEl) { nextEl.classList.add('active'); }
 
-                // Spezielle Trigger beim Betreten von Slides
                 if (slideNumber === 4) {
                     startThermoAnim();
-                } else if (slideNumber === 6) {
-                    runFinalSequence();
                 }
             }, 300);
         }
 
-        /* --------------------------------------------------
-           2. MUSIK STEUERUNG
-           -------------------------------------------------- */
         const audio = document.getElementById('bg-music');
         const musicBtn = document.getElementById('music-btn');
+        const audioStatus = document.getElementById('audio-status');
         let isPlaying = false;
 
         function toggleMusic() {
@@ -645,24 +612,26 @@
                 musicBtn.innerHTML = '🎵 Musik an';
                 isPlaying = false;
             } else {
-                audio.play().then(() => {
-                    musicBtn.innerHTML = '⏸️ Musik aus';
-                    isPlaying = true;
-                }).catch(e => {
-                    console.log("Autoplay blockiert oder Datei nicht gefunden", e);
-                });
+                let playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        musicBtn.innerHTML = '⏸️ Musik aus';
+                        isPlaying = true;
+                        audioStatus.style.display = 'none';
+                    }).catch(error => {
+                        audioStatus.style.display = 'block';
+                        audioStatus.innerText = 'Hinweis: "musik.mp3" konnte nicht geladen werden.';
+                        musicBtn.innerHTML = '⚠️ Musikdatei fehlt';
+                    });
+                }
             }
         }
 
-        /* --------------------------------------------------
-           3. SLIDE 1: FINGERPRINT SCANNER
-           -------------------------------------------------- */
         const scanTrigger = document.getElementById('scan-trigger');
         const scanStatus = document.getElementById('scan-status');
         const slide1Next = document.getElementById('slide1-next');
 
         scanTrigger.addEventListener('click', () => {
-            // Automatisch Musik beim ersten Klick versuchen zu starten
             if (!isPlaying) { toggleMusic(); }
 
             scanStatus.innerText = "Identität überprüfen...";
@@ -675,9 +644,6 @@
             }, 1800);
         });
 
-        /* --------------------------------------------------
-           4. SLIDE 2: QUIZ ANTWORT
-           -------------------------------------------------- */
         function checkAnswer(choice) {
             const answerBox = document.getElementById('quiz-answer-text');
             const nextBtn = document.getElementById('slide2-next');
@@ -690,9 +656,6 @@
             }, 200);
         }
 
-        /* --------------------------------------------------
-           5. SLIDE 4: THERMOMETER & GEHEIMNACHRICHT
-           -------------------------------------------------- */
         function startThermoAnim() {
             const thermoVal = document.getElementById('thermo-val');
             const temps = ['36°C', '50°C', '100°C', '999°C 🔥'];
@@ -708,11 +671,9 @@
             }, 800);
         }
 
-        // Hold Button Logik
         const holdBtn = document.getElementById('hold-button');
         const holdProgress = document.getElementById('hold-progress');
         const secretMsg = document.getElementById('secret-message');
-        let holdTimer = null;
         let progressInterval = null;
         let holdTime = 0;
 
@@ -742,9 +703,6 @@
         holdBtn.addEventListener('touchstart', (e) => { e.preventDefault(); startHold(); });
         holdBtn.addEventListener('touchend', endHold);
 
-        /* --------------------------------------------------
-           6. SLIDE 5: KAUSSER BAROMETER ANIMAION
-           -------------------------------------------------- */
         function runBarometer() {
             const bar = document.getElementById('barometer-bar');
             const text = document.getElementById('barometer-text');
@@ -773,7 +731,6 @@
                     stepIdx++;
                 } else {
                     clearInterval(interval);
-                    // Fehlermeldung anzeigen
                     text.innerText = "⚠️ ERROR";
                     text.style.color = "#ff4757";
                     error.innerHTML = "Messfehler erkannt.<br>Die Skala reicht nicht aus.";
@@ -782,43 +739,6 @@
             }, 600);
         }
 
-        /* --------------------------------------------------
-           7. SLIDE 6: FINAL SEQUENZ
-           -------------------------------------------------- */
-        function runFinalSequence() {
-            const photo = document.getElementById('final-photo');
-            const typewriter = document.getElementById('typewriter-text');
-            const personalText = document.getElementById('final-personal-text');
-
-            // 1. Foto langsam einblenden
-            setTimeout(() => {
-                photo.style.opacity = '1';
-                photo.style.transform = 'scale(1)';
-            }, 500);
-
-            // 2. Textschreibanimation: "Ergebnis:" -> "Meine Liebe zu Kausser ist..." -> "Nicht messbar."
-            setTimeout(() => {
-                typewriter.innerText = "Ergebnis:";
-            }, 2000);
-
-            setTimeout(() => {
-                typewriter.innerText = "Meine Liebe zu Kausser ist...";
-            }, 4000);
-
-            setTimeout(() => {
-                typewriter.innerText = "Nicht messbar. ❤️";
-                typewriter.style.color = "#ffd700";
-            }, 6500);
-
-            // 3. Persönlichen Text einblenden
-            setTimeout(() => {
-                personalText.style.opacity = '1';
-            }, 8500);
-        }
-
-        /* --------------------------------------------------
-           8. HERZ-PARTIKEL HINTERGRUND (CANVAS)
-           -------------------------------------------------- */
         const canvas = document.getElementById('canvas-particles');
         const ctx = canvas.getContext('2d');
 
