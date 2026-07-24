@@ -8,11 +8,11 @@
     <style>
         :root {
             --bg-light: #f3effe;
-            --card-bg: rgba(235, 223, 255, 0.85); /* Sanftes Pastell-Lila */
+            --card-bg: rgba(235, 223, 255, 0.85);
             --card-border: rgba(131, 111, 255, 0.35);
-            --accent-purple: #836fff;       /* SlateBlue1 */
+            --accent-purple: #836fff;
             --accent-soft: #b0a2ff;
-            --accent-red: #ff2a55;         /* Klares Rot für Herzen */
+            --accent-red: #ff2a55;
             --text-dark: #2a2438;
             --text-muted: #5a526c;
             --gold: #d4a017;
@@ -226,12 +226,12 @@
             font-size: 0.95rem;
         }
 
-        /* NEUE SCHÖNE DEUTSCHLANDKARTE */
+        /* HOCHWERTIGE MAP STYLINGS */
         .map-container {
             width: 100%;
-            max-width: 350px;
-            height: 280px;
-            background: rgba(255, 255, 255, 0.85);
+            max-width: 360px;
+            height: 290px;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 20px;
             border: 2px solid var(--card-border);
             position: relative;
@@ -260,7 +260,7 @@
         }
 
         .quiz-btn {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.85);
             border: 2px solid var(--card-border);
             color: var(--text-dark);
             padding: 10px 18px;
@@ -490,7 +490,7 @@
             100% { opacity: 1; }
         }
 
-        /* PHOTO & FINAL */
+        /* PHOTO & FINAL STICKER */
         .photo-frame {
             display: inline-block;
             border-radius: 20px;
@@ -500,7 +500,7 @@
             margin: 15px 0 10px 0;
             background-color: transparent;
             max-width: 85%;
-            max-height: 280px;
+            max-height: 260px;
         }
 
         .photo-frame img {
@@ -508,7 +508,7 @@
             width: auto;
             height: auto;
             max-width: 100%;
-            max-height: 270px;
+            max-height: 250px;
             object-fit: contain;
         }
 
@@ -543,11 +543,10 @@
             font-weight: 700;
         }
 
-        /* WEBP STICKER AM ENDE */
         .webp-sticker-container {
             margin-top: 15px;
             width: 100%;
-            max-width: 220px;
+            max-width: 200px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -556,7 +555,7 @@
         .webp-sticker-container img {
             width: 100%;
             height: auto;
-            max-height: 200px;
+            max-height: 180px;
             border-radius: 16px;
             object-fit: contain;
             filter: drop-shadow(0 6px 15px rgba(131, 111, 255, 0.35));
@@ -570,7 +569,7 @@
             .cards-grid { grid-template-columns: repeat(2, 1fr); max-height: 340px; }
             .flip-card { height: 135px; }
             .final-personal-text { font-size: 1.55rem; }
-            .map-container { height: 240px; }
+            .map-container { height: 250px; }
         }
     </style>
 </head>
@@ -634,16 +633,16 @@
                         </filter>
                     </defs>
 
-                    <!-- Realistische, detaillierte Deutschland Silhouette mit Binnengrenzen -->
+                    <!-- Realistische Silhouette Deutschlands -->
                     <path d="M 210,35 Q 230,20 260,25 Q 310,15 345,45 Q 380,85 360,120 Q 395,145 375,185 Q 405,210 380,245 Q 410,285 390,325 Q 420,385 385,425 Q 350,470 320,515 Q 280,545 235,550 Q 185,520 155,485 Q 120,470 100,430 Q 125,385 90,350 Q 120,310 85,260 Q 60,210 85,160 Q 110,135 125,95 Q 165,75 190,55 Z" fill="url(#mapGrad)" stroke="#836fff" stroke-width="3" filter="drop-shadow(0px 4px 10px rgba(131,111,255,0.25))"/>
                     
-                    <!-- Binnen-Linien für edlen Karten-Look -->
+                    <!-- Binnenland-Gitter f. Karteneffekt -->
                     <path d="M 125,95 Q 200,120 280,110 M 85,260 Q 200,280 380,245 M 100,430 Q 220,440 385,425" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
 
-                    <!-- Flugbahn/Verbindungslinie -->
+                    <!-- Verbindungslinie (Gestrichelt & Bogen) -->
                     <path d="M 148,112 Q 130,280 232,442" fill="none" stroke="#ff2a55" stroke-width="3.5" stroke-dasharray="8,6" filter="url(#glow)"/>
 
-                    <!-- Bunde Pin (Nordwesten) -->
+                    <!-- Bunde Pin -->
                     <g transform="translate(148, 112)">
                         <circle cx="0" cy="0" r="14" fill="rgba(255,42,85,0.2)" />
                         <circle cx="0" cy="0" r="7" fill="#ff2a55" stroke="#ffffff" stroke-width="2.5"/>
@@ -651,7 +650,7 @@
                         <text x="-35" y="-13" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">Bunde</text>
                     </g>
                     
-                    <!-- Heilbronn Pin (Südwesten) -->
+                    <!-- Heilbronn Pin -->
                     <g transform="translate(232, 442)">
                         <circle cx="0" cy="0" r="14" fill="rgba(255,42,85,0.2)" />
                         <circle cx="0" cy="0" r="7" fill="#ff2a55" stroke="#ffffff" stroke-width="2.5"/>
@@ -659,7 +658,7 @@
                         <text x="47" y="4" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">Heilbronn</text>
                     </g>
 
-                    <!-- Distanz Marker Badge in der Mitte -->
+                    <!-- Distanz Schild -->
                     <g transform="translate(145, 275)">
                         <rect x="0" y="0" width="100" height="32" rx="16" fill="#836fff" stroke="#ffffff" stroke-width="2" filter="drop-shadow(0px 4px 8px rgba(0,0,0,0.15))"/>
                         <text x="50" y="21" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">✈️ 581 km</text>
@@ -747,7 +746,7 @@
                 "Keine Zahl kann beschreiben, wie viel du mir bedeutest. Danke, dass du mein Leben schöner machst. Ich freue mich auf alles, was noch vor uns liegt."
             </div>
 
-            <!-- WEBP STICKER AM ENDE -->
+            <!-- STICKER AM ENDE -->
             <div class="webp-sticker-container">
                 <img id="sticker-img" src="kaussernathansticker.webp" alt="Sticker" onerror="tryNextSticker(this)">
             </div>
@@ -768,7 +767,7 @@
             }
         }
 
-        // STICKER FALLBACK (Falls Groß-/Kleinschreibung variiert)
+        // STICKER FALLBACK (Falls Dateiname variiert)
         const stickerFallbacks = [
             'kaussernathansticker.webp', 
             'Kaussernathansticker.webp', 
@@ -822,7 +821,7 @@
             }
         }
 
-        // FINGERPRINT HOLD SCANNER
+        // SCANNER
         const scannerBtn = document.getElementById('scanner-btn');
         const scanBar = document.getElementById('scan-bar');
         const scanStatus = document.getElementById('scan-status');
@@ -884,7 +883,7 @@
             }, 200);
         }
 
-        // 10 LIEBESGRÜNDE
+        // 10 GRÜNDE
         const reasons = [
             "Du bringst Farbe in meinen grauen Alltag.",
             "Deine Liebe reicht aus, um die gesamte Welt damit zu versorgen.",
@@ -922,7 +921,6 @@
 
             card.addEventListener('click', () => {
                 card.classList.toggle('flipped');
-                
                 if(card.classList.contains('flipped')) {
                     flippedCards.add(index);
                 }
@@ -936,7 +934,7 @@
             cardsContainer.appendChild(card);
         });
 
-        // THERMOMETER ANIMATION
+        // THERMOMETER
         function startThermoAnim() {
             const thermoVal = document.getElementById('thermo-val');
             const temps = ['36°C', '50°C', '100°C', '999°C 🔥'];
@@ -952,7 +950,7 @@
             }, 800);
         }
 
-        // HOLD BUTTON FOR SECRET MESSAGE
+        // GEHEIMNACHRICHT BUTTON
         const holdBtn = document.getElementById('hold-button');
         const holdProgress = document.getElementById('hold-progress');
         const secretMsg = document.getElementById('secret-message');
@@ -984,7 +982,7 @@
         holdBtn.addEventListener('touchstart', startHold);
         holdBtn.addEventListener('touchend', endHold);
 
-        // BAROMETER TEST
+        // BAROMETER
         function runBarometer() {
             const bar = document.getElementById('barometer-bar');
             const text = document.getElementById('barometer-text');
@@ -1020,7 +1018,7 @@
             }, 600);
         }
 
-        // BACKGROUND PARTICLES (ROTE HERZEN)
+        // PARTICLES
         const canvas = document.getElementById('canvas-particles');
         const ctx = canvas.getContext('2d');
 
