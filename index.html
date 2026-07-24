@@ -7,13 +7,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #0f0b15;
+            --bg-dark: #0a0814;
             --card-bg: rgba(255, 255, 255, 0.05);
-            --card-border: rgba(255, 255, 255, 0.12);
+            --card-border: rgba(131, 111, 255, 0.25);
+            --accent-slate: #836fff;       /* SlateBlue1 */
+            --accent-glow: #a493ff;        /* Helleres SlateBlue für Leuchteffekte */
             --accent-rose: #ff4b72;
-            --accent-glow: #ff758c;
             --text-light: #f8f9fa;
-            --text-muted: #b3a5c3;
+            --text-muted: #b8b3d6;
             --gold: #ffd700;
         }
 
@@ -28,8 +29,8 @@
         body {
             background-color: var(--bg-dark);
             background-image: 
-                radial-gradient(at 0% 0%, rgba(255, 75, 114, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(120, 50, 255, 0.15) 0px, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(131, 111, 255, 0.2) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(75, 0, 130, 0.25) 0px, transparent 50%);
             color: var(--text-light);
             min-height: 100vh;
             display: flex;
@@ -37,6 +38,7 @@
             align-items: center;
             overflow-x: hidden;
             position: relative;
+            padding: 20px 0;
         }
 
         #canvas-particles {
@@ -54,38 +56,38 @@
             top: 20px;
             right: 20px;
             z-index: 100;
-            background: rgba(255, 75, 114, 0.25);
+            background: rgba(131, 111, 255, 0.2);
             backdrop-filter: blur(10px);
-            border: 1px solid var(--accent-rose);
+            border: 1px solid var(--accent-slate);
             color: var(--text-light);
-            padding: 12px 20px;
+            padding: 10px 18px;
             border-radius: 30px;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 75, 114, 0.3);
+            box-shadow: 0 4px 15px rgba(131, 111, 255, 0.3);
         }
 
         .music-control:hover {
-            background: rgba(255, 75, 114, 0.5);
+            background: rgba(131, 111, 255, 0.4);
             transform: scale(1.05);
         }
 
         .app-container {
-            width: 90%;
-            max-width: 650px;
-            min-height: 580px;
-            background: rgba(20, 15, 30, 0.65);
+            width: 92%;
+            max-width: 680px;
+            min-height: 600px;
+            background: rgba(18, 14, 30, 0.75);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--card-border);
             border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 75, 114, 0.1);
-            padding: 40px 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 35px rgba(131, 111, 255, 0.2);
+            padding: 35px 25px;
             position: relative;
             z-index: 10;
             display: flex;
@@ -114,24 +116,24 @@
 
         h1, h2 {
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             background: linear-gradient(135deg, #ffffff, var(--accent-glow));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        h1 { font-size: 2.2rem; }
-        h2 { font-size: 1.8rem; }
+        h1 { font-size: 2.1rem; }
+        h2 { font-size: 1.7rem; }
 
         p {
             color: var(--text-muted);
             line-height: 1.6;
-            margin-bottom: 25px;
-            font-size: 1rem;
+            margin-bottom: 20px;
+            font-size: 0.98rem;
         }
 
         .btn {
-            background: linear-gradient(135deg, var(--accent-rose), #e03a60);
+            background: linear-gradient(135deg, var(--accent-slate), #6343e6);
             color: white;
             border: none;
             padding: 14px 32px;
@@ -139,7 +141,7 @@
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 8px 25px rgba(255, 75, 114, 0.4);
+            box-shadow: 0 8px 25px rgba(131, 111, 255, 0.4);
             transition: all 0.3s ease;
             margin-top: 15px;
             outline: none;
@@ -147,110 +149,233 @@
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(255, 75, 114, 0.6);
+            box-shadow: 0 12px 30px rgba(131, 111, 255, 0.6);
         }
 
-        .scan-container {
-            margin: 20px 0;
-            cursor: pointer;
+        /* FINGERPRINT SCANNER STYLES */
+        .scanner-wrapper {
             position: relative;
+            width: 130px;
+            height: 130px;
+            margin: 20px auto;
+            border-radius: 50%;
+            background: rgba(131, 111, 255, 0.08);
+            border: 2px dashed var(--accent-slate);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            touch-action: manipulation;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(131, 111, 255, 0.2);
+            transition: transform 0.2s ease, border-color 0.3s ease;
         }
 
-        .fingerprint-icon {
-            width: 90px;
-            height: 90px;
-            stroke: var(--accent-rose);
+        .scanner-wrapper:active {
+            transform: scale(0.96);
+        }
+
+        .fingerprint-svg {
+            width: 80px;
+            height: 80px;
             fill: none;
-            stroke-width: 2;
-            transition: all 0.3s ease;
-            filter: drop-shadow(0 0 10px rgba(255, 75, 114, 0.5));
+            stroke: var(--accent-glow);
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            transition: stroke 0.3s ease;
         }
 
-        .scan-container:hover .fingerprint-icon {
-            transform: scale(1.08);
-            filter: drop-shadow(0 0 20px rgba(255, 75, 114, 0.8));
+        .scan-laser {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #ffffff;
+            box-shadow: 0 0 15px #ffffff, 0 0 30px var(--accent-slate);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .scanning .scan-laser {
+            opacity: 1;
+            animation: scanAnim 1.2s infinite alternate ease-in-out;
+        }
+
+        @keyframes scanAnim {
+            0% { top: 10%; }
+            100% { top: 85%; }
+        }
+
+        .scan-progress-bar {
+            width: 200px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+            border: 1px solid var(--card-border);
+        }
+
+        .scan-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent-slate), var(--accent-glow));
+            transition: width 0.1s linear;
         }
 
         .scan-status {
             font-weight: 600;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             margin-top: 15px;
-            min-height: 30px;
+            min-height: 25px;
             color: var(--accent-glow);
+            font-size: 0.95rem;
         }
 
+        /* QUIZ */
         .quiz-options {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             width: 100%;
             max-width: 350px;
             margin: 15px 0;
         }
 
         .quiz-btn {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.06);
             border: 1px solid var(--card-border);
             color: var(--text-light);
             padding: 14px;
             border-radius: 14px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .quiz-btn:hover {
-            background: rgba(255, 75, 114, 0.2);
-            border-color: var(--accent-rose);
+            background: rgba(131, 111, 255, 0.25);
+            border-color: var(--accent-slate);
         }
 
         .quiz-answer {
-            margin-top: 20px;
-            font-size: 1.2rem;
+            margin-top: 15px;
+            font-size: 1.05rem;
             color: var(--gold);
             font-weight: 600;
-            min-height: 40px;
+            min-height: 30px;
             opacity: 0;
             transition: opacity 0.5s ease;
         }
 
-        .timeline {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+        /* CARDS GRID (10 REASONS) */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
             width: 100%;
-            text-align: left;
-            margin: 20px 0;
+            margin: 15px 0;
+            max-height: 380px;
+            overflow-y: auto;
+            padding: 5px;
         }
 
-        .level-card {
-            background: rgba(255, 255, 255, 0.04);
-            border-left: 4px solid var(--accent-rose);
-            padding: 15px 20px;
-            border-radius: 0 12px 12px 0;
+        /* Scrollbar Styling */
+        .cards-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+        .cards-grid::-webkit-scrollbar-thumb {
+            background: var(--accent-slate);
+            border-radius: 10px;
+        }
+
+        .flip-card {
+            background-color: transparent;
+            height: 110px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
             position: relative;
-            backdrop-filter: blur(5px);
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
         }
 
-        .level-card .level-tag {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 1px solid var(--card-border);
+        }
+
+        .flip-card-front {
+            background: linear-gradient(145deg, rgba(131, 111, 255, 0.15), rgba(20, 15, 35, 0.8));
             color: var(--accent-glow);
             font-weight: 700;
+            font-size: 1.3rem;
         }
 
-        .level-card .level-text {
-            font-size: 1.05rem;
-            color: var(--text-light);
-            margin-top: 5px;
+        .flip-card-front:hover {
+            border-color: var(--accent-slate);
+            box-shadow: 0 0 15px rgba(131, 111, 255, 0.4);
         }
 
+        .flip-card-back {
+            background: linear-gradient(145deg, rgba(131, 111, 255, 0.3), rgba(40, 30, 70, 0.9));
+            color: #ffffff;
+            transform: rotateY(180deg);
+            font-size: 0.78rem;
+            line-height: 1.35;
+            font-weight: 500;
+        }
+
+        .special-card-container {
+            width: 100%;
+            margin-top: 15px;
+            display: none;
+            animation: fadeInCard 0.8s ease forwards;
+        }
+
+        @keyframes fadeInCard {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .special-card {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(131, 111, 255, 0.3));
+            border: 2px solid var(--gold);
+            border-radius: 18px;
+            padding: 18px;
+            color: #ffeaa7;
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.3);
+        }
+
+        /* THERMOMETER */
         .interactive-section {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 25px;
+            gap: 20px;
             width: 100%;
         }
 
@@ -272,7 +397,7 @@
 
         .hold-btn {
             background: rgba(255, 255, 255, 0.08);
-            border: 2px dashed var(--accent-rose);
+            border: 2px dashed var(--accent-slate);
             color: var(--text-light);
             padding: 16px 28px;
             border-radius: 50px;
@@ -288,18 +413,19 @@
             position: absolute;
             top: 0; left: 0; bottom: 0;
             width: 0%;
-            background: rgba(255, 75, 114, 0.4);
+            background: rgba(131, 111, 255, 0.4);
             transition: width 0.1s linear;
         }
 
         .secret-message-box {
-            margin-top: 15px;
-            font-size: 1.1rem;
+            margin-top: 10px;
+            font-size: 1.05rem;
             color: var(--accent-glow);
             font-style: italic;
             min-height: 30px;
         }
 
+        /* BAROMETER */
         .barometer-container {
             width: 100%;
             margin: 20px 0;
@@ -326,10 +452,10 @@
         .barometer-inner {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #ff4b72, #ff8e53, #ff0055);
+            background: linear-gradient(90deg, var(--accent-slate), var(--accent-glow), var(--accent-rose));
             border-radius: 16px;
             transition: width 0.4s ease, background 0.3s ease;
-            box-shadow: 0 0 15px rgba(255, 75, 114, 0.8);
+            box-shadow: 0 0 15px rgba(131, 111, 255, 0.8);
         }
 
         .barometer-display {
@@ -354,17 +480,15 @@
             100% { opacity: 1; transform: scale(1.02); }
         }
 
+        /* PHOTO & FINAL */
         .photo-frame {
-            width: 220px;
-            height: 220px;
+            width: 210px;
+            height: 210px;
             border-radius: 20px;
-            border: 4px solid var(--accent-rose);
-            box-shadow: 0 0 35px rgba(255, 75, 114, 0.7);
+            border: 4px solid var(--accent-slate);
+            box-shadow: 0 0 35px rgba(131, 111, 255, 0.6);
             overflow: hidden;
-            margin: 20px 0;
-            opacity: 1;
-            transform: scale(1);
-            transition: all 1.2s ease;
+            margin: 15px 0;
             background-color: rgba(255, 255, 255, 0.1);
             display: flex;
             justify-content: center;
@@ -379,59 +503,46 @@
         }
 
         .pulsing-heart {
-            font-size: 3rem;
-            color: var(--accent-rose);
+            font-size: 2.8rem;
+            color: var(--accent-slate);
             animation: heartBeat 1.3s infinite ease-in-out;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         @keyframes heartBeat {
             0% { transform: scale(1); }
-            14% { transform: scale(1.25); }
+            14% { transform: scale(1.2); }
             28% { transform: scale(1); }
-            42% { transform: scale(1.25); }
+            42% { transform: scale(1.2); }
             70% { transform: scale(1); }
         }
 
         .typing-text {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 600;
             color: var(--text-light);
             margin: 10px 0;
-            min-height: 40px;
         }
 
         .final-personal-text {
             font-family: 'Dancing Script', cursive;
-            font-size: 1.5rem;
+            font-size: 1.45rem;
             color: #ffeaa7;
             line-height: 1.5;
-            margin-top: 15px;
-            opacity: 1;
-        }
-
-        #audio-status {
-            position: fixed;
-            bottom: 15px;
-            right: 15px;
-            background: rgba(0,0,0,0.7);
-            color: #ff758c;
-            padding: 6px 12px;
-            border-radius: 10px;
-            font-size: 0.75rem;
-            display: none;
-            z-index: 1000;
+            margin-top: 10px;
         }
 
         @media (max-width: 480px) {
             .app-container {
-                padding: 30px 20px;
-                min-height: 520px;
+                padding: 25px 18px;
+                min-height: 540px;
             }
-            h1 { font-size: 1.8rem; }
-            h2 { font-size: 1.5rem; }
-            .barometer-display { font-size: 1.8rem; }
-            .photo-frame { width: 180px; height: 180px; }
+            h1 { font-size: 1.7rem; }
+            h2 { font-size: 1.4rem; }
+            .cards-grid { grid-template-columns: repeat(2, 1fr); max-height: 320px; }
+            .flip-card { height: 100px; }
+            .flip-card-back { font-size: 0.72rem; }
+            .photo-frame { width: 170px; height: 170px; }
         }
     </style>
 </head>
@@ -443,37 +554,39 @@
         <source src="musik.mp3" type="audio/mpeg">
         <source src="Musik.mp3" type="audio/mpeg">
         <source src="musik.MP3" type="audio/mpeg">
-        <source src="audio.mp3" type="audio/mpeg">
     </audio>
 
     <button class="music-control" id="music-btn" onclick="toggleMusic()">
         🎵 Musik abspielen
     </button>
 
-    <div id="audio-status"></div>
-
     <div class="app-container">
 
-        <!-- SLIDE 1 -->
+        <!-- SLIDE 1: FINGERPRINT SCANNER -->
         <div class="slide active" id="slide-1">
-            <div class="pulsing-heart">❤️</div>
+            <div class="pulsing-heart">💜</div>
             <h2>Willkommen, Kausser</h2>
-            <p>Bevor wir starten, müssen wir deine Identität überprüfen...</p>
+            <p>Lege deinen Finger auf den Sensor, um dich zu authentifizieren...</p>
 
-            <div class="scan-container" id="scan-trigger">
-                <svg class="fingerprint-icon" viewBox="0 0 24 24">
-                    <path d="M12,1A11,11,0,0,0,1,12a1,1,0,0,0,2,0,9,9,0,0,1,18,0,1,1,0,0,0,2,0A11,11,0,0,0,12,1Z"/>
-                    <path d="M12,5a7,7,0,0,0-7,7,1,1,0,0,0,2,0,5,5,0,0,1,10,0,1,1,0,0,0,2,0A7,7,0,0,0,12,5Z"/>
-                    <path d="M12,9a3,3,0,0,0-3,3,1,1,0,0,0,2,0,1,1,0,0,0,2,0,1,1,0,0,0,2,0A3,3,0,0,0,12,9Z"/>
-                    <path d="M12,13a1,1,0,0,0-1,1,1,1,0,0,0,2,0A1,1,0,0,0,12,13Z"/>
+            <div class="scanner-wrapper" id="scanner-btn">
+                <div class="scan-laser"></div>
+                <svg class="fingerprint-svg" viewBox="0 0 512 512">
+                    <path d="M256,48C141.1,48,48,141.1,48,256c0,22.7,3.3,44.7,9.4,65.5c3.2,10.8,14.6,17,25.4,13.8c10.8-3.2,17-14.6,13.8-25.4C92.2,293.7,89.3,275.2,89.3,256c0-91.9,74.8-166.7,166.7-166.7s166.7,74.8,166.7,166.7c0,19.2-2.9,37.7-8.3,53.9c-3.2,10.8,3,22.2,13.8,25.4c10.8,3.2,22.2-3,25.4-13.8c6.1-20.8,9.4-42.8,9.4-65.5C464,141.1,370.9,48,256,48z"/>
+                    <path d="M256,112c-79.4,0-144,64.6-144,144c0,27.8,7.9,53.8,21.5,76c6,9.8,18.8,12.8,28.6,6.8c9.8-6,12.8-18.8,6.8-28.6c-10.3-16.8-16.3-36.5-16.3-57.5c0-59.5,48.5-108,108-108s108,48.5,108,108c0,21-6,40.7-16.3,57.5c-6,9.8-3,22.6,6.8,28.6c9.8,6,22.6,3,28.6-6.8c13.6-22.2,21.5-48.2,21.5-76C400,176.6,335.4,112,256,112z"/>
+                    <path d="M256,176c-44.1,0-80,35.9-80,80c0,28.3,14.7,53.2,36.9,67.6c9.6,6.2,22.4,3.4,28.6-6.2c6.2-9.6,3.4-22.4-6.2-28.6c-13.4-8.7-22.3-23.7-22.3-40.8c0-26.5,21.5-48,48-48s48,21.5,48,48c0,17.1-8.9,32.1-22.3,40.8c-9.6,6.2-12.4,19-6.2,28.6c6.2,9.6,19,12.4,28.6,6.2c22.2-14.4,36.9-39.3,36.9-67.6C336,211.9,300.1,176,256,176z"/>
+                    <path d="M256,240c-8.8,0-16,7.2-16,16c0,21.5,12,39.8,29.5,49.2c9.2,5,20.7,1.5,25.7-7.7c5-9.2,1.5-20.7-7.7-25.7C278.8,267.1,272,259.2,272,256C272,247.2,264.8,240,256,240z"/>
                 </svg>
             </div>
+
+            <div class="scan-progress-bar">
+                <div class="scan-progress-fill" id="scan-bar"></div>
+            </div>
             
-            <div class="scan-status" id="scan-status">Tippe auf den Fingerabdruck</div>
-            <button class="btn" id="slide1-next" style="display: none;" onclick="nextSlide(2)">Weiter ❤️</button>
+            <div class="scan-status" id="scan-status">Gedrückt halten zum Scannen...</div>
+            <button class="btn" id="slide1-next" style="display: none;" onclick="nextSlide(2)">Zugriff gewährt ❤️</button>
         </div>
 
-        <!-- SLIDE 2 -->
+        <!-- SLIDE 2: FRAGE -->
         <div class="slide" id="slide-2">
             <h2>Eine kurze Frage...</h2>
             <p>Wie weit ist meine Liebe bereit für dich zu gehen?</p>
@@ -488,30 +601,25 @@
             <button class="btn" id="slide2-next" style="display: none;" onclick="nextSlide(3)">Weiter ✨</button>
         </div>
 
-        <!-- SLIDE 3 -->
+        <!-- SLIDE 3: 10 GRÜNDE / KÄRTCHEN -->
         <div class="slide" id="slide-3">
-            <h2>Unsere Reise</h2>
-            <p>Jede Stufe mit dir ist unbezahlbar:</p>
+            <h2>Was ich an dir liebe 💜</h2>
+            <p>Klicke auf die Kärtchen, um sie umzudrehen:</p>
 
-            <div class="timeline">
-                <div class="level-card">
-                    <div class="level-tag">Level 1</div>
-                    <div class="level-text">"Der Moment, als du in mein Leben kamst"</div>
-                </div>
-                <div class="level-card">
-                    <div class="level-tag">Level 2</div>
-                    <div class="level-text">"Die Momente, die ich nie vergessen werde"</div>
-                </div>
-                <div class="level-card">
-                    <div class="level-tag">Level 3</div>
-                    <div class="level-text">"Alles, was noch vor uns liegt"</div>
+            <div class="cards-grid" id="cards-container">
+                <!-- 10 Kärtchen werden per JavaScript eingefügt -->
+            </div>
+
+            <div class="special-card-container" id="special-card-box">
+                <div class="special-card">
+                    ✨ Es gibt noch Tausende mehr Gründe und für jeden einzelnen liebe ich dich. ✨
                 </div>
             </div>
 
-            <button class="btn" onclick="nextSlide(4)">Zum Barometer &rarr;</button>
+            <button class="btn" id="slide3-next" style="display: none;" onclick="nextSlide(4)">Weiter &rarr;</button>
         </div>
 
-        <!-- SLIDE 4 -->
+        <!-- SLIDE 4: TEMPERATUR -->
         <div class="slide" id="slide-4">
             <h2>Liebes-Temperatur</h2>
             <p>Ein kleiner Test für zwischendurch...</p>
@@ -533,7 +641,7 @@
             <button class="btn" onclick="nextSlide(5)">Bereit fürs Barometer? 🔥</button>
         </div>
 
-        <!-- SLIDE 5 -->
+        <!-- SLIDE 5: BAROMETER MESSUNG -->
         <div class="slide" id="slide-5">
             <div class="barometer-title">KAUSSER BAROMETER</div>
             <p>Lass uns deine genaue Liebe messen...</p>
@@ -551,9 +659,9 @@
             <button class="btn" id="slide5-next" style="display: none;" onclick="nextSlide(6)">Zum Ergebnis ❤️</button>
         </div>
 
-        <!-- SLIDE 6 -->
+        <!-- SLIDE 6: ERGEBNIS & FOTO -->
         <div class="slide" id="slide-6">
-            <div class="pulsing-heart">❤️</div>
+            <div class="pulsing-heart">💜</div>
             
             <div class="photo-frame">
                 <img id="user-photo" src="foto.jpg" alt="Unser Foto" onerror="tryNextImage(this)">
@@ -569,9 +677,9 @@
     </div>
 
     <script>
-        const imageFallbacks = ['foto.jpg', 'Foto.jpg', 'foto.jpeg', 'Foto.jpeg', 'foto.png', 'Foto.png', 'image.jpg'];
+        // BILD FALLBACK
+        const imageFallbacks = ['foto.jpg', 'Foto.jpg', 'foto.jpeg', 'Foto.jpeg', 'foto.png', 'Foto.png'];
         let imgIdx = 0;
-
         function tryNextImage(imgElement) {
             imgIdx++;
             if (imgIdx < imageFallbacks.length) {
@@ -581,29 +689,24 @@
             }
         }
 
+        // SLIDES NAVIGATION
         let currentSlide = 1;
-
         function nextSlide(slideNumber) {
             const currentEl = document.getElementById(`slide-${currentSlide}`);
             const nextEl = document.getElementById(`slide-${slideNumber}`);
 
-            if (currentEl) {
-                currentEl.classList.remove('active');
-            }
+            if (currentEl) currentEl.classList.remove('active');
 
             setTimeout(() => {
                 currentSlide = slideNumber;
-                if (nextEl) { nextEl.classList.add('active'); }
-
-                if (slideNumber === 4) {
-                    startThermoAnim();
-                }
+                if (nextEl) nextEl.classList.add('active');
+                if (slideNumber === 4) startThermoAnim();
             }, 300);
         }
 
+        // AUDIO SYSTEM
         const audio = document.getElementById('bg-music');
         const musicBtn = document.getElementById('music-btn');
-        const audioStatus = document.getElementById('audio-status');
         let isPlaying = false;
 
         function toggleMusic() {
@@ -612,38 +715,71 @@
                 musicBtn.innerHTML = '🎵 Musik an';
                 isPlaying = false;
             } else {
+                audio.load();
                 let playPromise = audio.play();
                 if (playPromise !== undefined) {
                     playPromise.then(() => {
                         musicBtn.innerHTML = '⏸️ Musik aus';
                         isPlaying = true;
-                        audioStatus.style.display = 'none';
                     }).catch(error => {
-                        audioStatus.style.display = 'block';
-                        audioStatus.innerText = 'Hinweis: "musik.mp3" konnte nicht geladen werden.';
-                        musicBtn.innerHTML = '⚠️ Musikdatei fehlt';
+                        alert("Musik konnte nicht abgespielt werden. Prüfe, ob 'musik.mp3' im Repository liegt!");
                     });
                 }
             }
         }
 
-        const scanTrigger = document.getElementById('scan-trigger');
+        // FINGERPRINT HOLD SCANNER
+        const scannerBtn = document.getElementById('scanner-btn');
+        const scanBar = document.getElementById('scan-bar');
         const scanStatus = document.getElementById('scan-status');
         const slide1Next = document.getElementById('slide1-next');
+        
+        let scanTimer = null;
+        let scanProgress = 0;
+        let isScanned = false;
 
-        scanTrigger.addEventListener('click', () => {
-            if (!isPlaying) { toggleMusic(); }
+        function startScan(e) {
+            if (isScanned) return;
+            if (e.type === 'touchstart') e.preventDefault();
+            
+            if (!isPlaying) toggleMusic();
 
-            scanStatus.innerText = "Identität überprüfen...";
-            scanStatus.style.color = "#ffd700";
+            scannerBtn.classList.add('scanning');
+            scanStatus.innerText = "Finger wird gescannt...";
+            scanStatus.style.color = "#836fff";
 
-            setTimeout(() => {
-                scanStatus.innerText = "Kausser erkannt ❤️";
-                scanStatus.style.color = "#ff758c";
-                slide1Next.style.display = "inline-block";
-            }, 1800);
-        });
+            scanTimer = setInterval(() => {
+                scanProgress += 5;
+                scanBar.style.width = scanProgress + '%';
 
+                if (scanProgress >= 100) {
+                    clearInterval(scanTimer);
+                    isScanned = true;
+                    scannerBtn.classList.remove('scanning');
+                    scanStatus.innerText = "Kausser erkannt! ❤️";
+                    scanStatus.style.color = "#ffd700";
+                    slide1Next.style.display = "inline-block";
+                }
+            }, 60);
+        }
+
+        function stopScan() {
+            if (isScanned) return;
+            clearInterval(scanTimer);
+            scannerBtn.classList.remove('scanning');
+            scanProgress = 0;
+            scanBar.style.width = '0%';
+            scanStatus.innerText = "Gedrückt halten zum Scannen...";
+            scanStatus.style.color = "#a493ff";
+        }
+
+        scannerBtn.addEventListener('mousedown', startScan);
+        scannerBtn.addEventListener('mouseup', stopScan);
+        scannerBtn.addEventListener('mouseleave', stopScan);
+        scannerBtn.addEventListener('touchstart', startScan);
+        scannerBtn.addEventListener('touchend', stopScan);
+
+        // QUIZ
         function checkAnswer(choice) {
             const answerBox = document.getElementById('quiz-answer-text');
             const nextBtn = document.getElementById('slide2-next');
@@ -656,6 +792,52 @@
             }, 200);
         }
 
+        // 10 LIEBESGRÜNDE (KÄRTCHEN)
+        const reasons = [
+            "Du bringst Farbe in meinen grauen Alltag.",
+            "Deine Liebe reicht aus, um die gesamte Welt damit zu versorgen.",
+            "Deine direkte und ehrliche Art, du trägst dein Herz auf der Zunge.",
+            "Deine Fürsorglichkeit.",
+            "Du bist der witzigste Mensch den ich kenne mit dem besten Humor.",
+            "Du bist die attraktivste Frau auf dieser Erde, ich bin verrückt nach dir.",
+            "Du strebst nach einem rechtschaffenen, gottgefälligen Leben.",
+            "Dein Grinsen wenn man dir schmeichelt.",
+            "Wenn du einfach du bist und singst, aufräumst, Kreuzworträtsel machst und ich dabei bin.",
+            "Deine Gabe Stille angenehm zu machen und gleichzeitig Langeweile zu brechen und einfach zu reden."
+        ];
+
+        const cardsContainer = document.getElementById('cards-container');
+        const flippedCards = new Set();
+
+        reasons.forEach((text, index) => {
+            const card = document.createElement('div');
+            card.className = 'flip-card';
+            card.innerHTML = `
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        #${index + 1} 💜
+                    </div>
+                    <div class="flip-card-back">
+                        ${text}
+                    </div>
+                </div>
+            `;
+
+            card.addEventListener('click', () => {
+                card.classList.add('flipped');
+                flippedCards.add(index);
+
+                // Wenn alle 10 aufgedeckt wurden
+                if (flippedCards.size === reasons.length) {
+                    document.getElementById('special-card-box').style.display = 'block';
+                    document.getElementById('slide3-next').style.display = 'inline-block';
+                }
+            });
+
+            cardsContainer.appendChild(card);
+        });
+
+        // THERMOMETER ANIMATION
         function startThermoAnim() {
             const thermoVal = document.getElementById('thermo-val');
             const temps = ['36°C', '50°C', '100°C', '999°C 🔥'];
@@ -671,19 +853,21 @@
             }, 800);
         }
 
+        // HOLD BUTTON FOR SECRET MESSAGE
         const holdBtn = document.getElementById('hold-button');
         const holdProgress = document.getElementById('hold-progress');
         const secretMsg = document.getElementById('secret-message');
         let progressInterval = null;
         let holdTime = 0;
 
-        function startHold() {
+        function startHold(e) {
+            if (e.type === 'touchstart') e.preventDefault();
             holdTime = 0;
             holdProgress.style.width = '0%';
             progressInterval = setInterval(() => {
                 holdTime += 100;
-                holdProgress.style.width = (holdTime / 3000) * 100 + '%';
-                if (holdTime >= 3000) {
+                holdProgress.style.width = (holdTime / 2500) * 100 + '%';
+                if (holdTime >= 2500) {
                     clearInterval(progressInterval);
                     secretMsg.innerText = "✨ Du bist das Schönste, was mir je passiert ist!";
                 }
@@ -692,17 +876,16 @@
 
         function endHold() {
             clearInterval(progressInterval);
-            if (holdTime < 3000) {
-                holdProgress.style.width = '0%';
-            }
+            if (holdTime < 2500) holdProgress.style.width = '0%';
         }
 
         holdBtn.addEventListener('mousedown', startHold);
         holdBtn.addEventListener('mouseup', endHold);
         holdBtn.addEventListener('mouseleave', endHold);
-        holdBtn.addEventListener('touchstart', (e) => { e.preventDefault(); startHold(); });
+        holdBtn.addEventListener('touchstart', startHold);
         holdBtn.addEventListener('touchend', endHold);
 
+        // BAROMETER TEST
         function runBarometer() {
             const bar = document.getElementById('barometer-bar');
             const text = document.getElementById('barometer-text');
@@ -723,7 +906,6 @@
             ];
 
             let stepIdx = 0;
-
             const interval = setInterval(() => {
                 if (stepIdx < steps.length) {
                     text.innerText = steps[stepIdx].pct;
@@ -739,6 +921,7 @@
             }, 600);
         }
 
+        // BACKGROUND PARTICLES (HERZEN & LUCHTEFFEKTE)
         const canvas = document.getElementById('canvas-particles');
         const ctx = canvas.getContext('2d');
 
@@ -750,11 +933,8 @@
         resizeCanvas();
 
         const particles = [];
-
         class HeartParticle {
-            constructor() {
-                this.reset();
-            }
+            constructor() { this.reset(); }
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = canvas.height + 20;
@@ -768,21 +948,19 @@
                 this.y -= this.speedY;
                 this.angle += this.swing;
                 this.x += Math.sin(this.angle) * 0.5;
-                if (this.y < -20) {
-                    this.reset();
-                }
+                if (this.y < -20) this.reset();
             }
             draw() {
                 ctx.save();
                 ctx.globalAlpha = this.opacity;
-                ctx.fillStyle = '#ff4b72';
+                ctx.fillStyle = '#836fff';
                 ctx.font = `${this.size}px serif`;
-                ctx.fillText('❤️', this.x, this.y);
+                ctx.fillText('💜', this.x, this.y);
                 ctx.restore();
             }
         }
 
-        for (let i = 0; i < 25; i++) {
+        for (let i = 0; i < 22; i++) {
             particles.push(new HeartParticle());
         }
 
