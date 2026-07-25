@@ -565,52 +565,28 @@
             margin-bottom: 0;
         }
 
-        /* FLIP-CARD FÜR DUA */
-        .dua-flip-container {
-            width: 100%;
-            perspective: 1000px;
-            margin: 20px 0 10px 0;
-            cursor: pointer;
+        /* LIEBESERKLÄRUNG TEXT VOR DUA */
+        .dua-intro-text {
+            font-family: 'Caveat', cursive;
+            font-size: 1.6rem;
+            color: var(--accent-deep);
+            font-weight: 700;
+            margin: 25px 0 10px 0;
+            line-height: 1.3;
         }
 
-        .dua-flip-card {
-            position: relative;
-            width: 100%;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
-        }
-
-        .dua-flip-container.flipped .dua-flip-card {
-            transform: rotateY(180deg);
-        }
-
-        .dua-front, .dua-back {
-            width: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
+        /* FESTES DUA SCHILD (NICHT UMDREHBAR) */
+        .dua-box {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(243, 235, 255, 0.92));
+            border: 2px solid var(--gold);
             border-radius: 22px;
             padding: 20px 18px;
-            border: 2px solid var(--gold);
+            margin: 10px 0 15px 0;
+            width: 100%;
             box-shadow: 0 8px 22px rgba(212, 175, 55, 0.18);
-        }
-
-        .dua-front {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(243, 235, 255, 0.92));
+            position: relative;
             display: flex;
             flex-direction: column;
-            align-items: center;
-        }
-
-        .dua-back {
-            background: linear-gradient(135deg, rgba(243, 235, 255, 0.98), rgba(230, 215, 255, 0.95));
-            transform: rotateY(180deg);
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
         }
 
@@ -649,21 +625,6 @@
             line-height: 1.4;
         }
 
-        .dua-click-hint {
-            font-size: 0.75rem;
-            color: var(--accent-purple);
-            margin-top: 10px;
-            font-weight: 600;
-            opacity: 0.8;
-        }
-
-        .dua-back-text {
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: var(--accent-deep);
-            line-height: 1.5;
-        }
-
         .webp-sticker-container {
             margin-top: 15px;
             width: 100%;
@@ -691,6 +652,7 @@
             .flip-card { height: 135px; }
             .final-personal-text { font-size: 1.3rem; padding: 14px 15px; }
             .final-personal-text p { font-size: 1.3rem; }
+            .dua-intro-text { font-size: 1.4rem; }
             .map-container { height: 250px; }
             .dua-arabic { font-size: 1.35rem; }
         }
@@ -873,29 +835,22 @@
                 <p style="text-align: center; color: var(--accent-deep); font-weight: bold; margin-top: 10px;">Allahuma Amin 🤲❤️</p>
             </div>
 
-            <!-- DUA FLIP CARD (UMDREHBAR!) -->
-            <div class="dua-flip-container" onclick="this.classList.toggle('flipped')">
-                <div class="dua-flip-card">
-                    <div class="dua-front">
-                        <div class="dua-header">Bittgebet für dich</div>
-                        <div class="dua-arabic">
-                            اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالآخِرَةِ
-                        </div>
-                        <div class="dua-transliteration">
-                            "Allahumma inni as'alukal-'afwa wal-'afiyah fid-dunya wal-akhirah"
-                        </div>
-                        <div class="dua-translation">
-                            "O Allah, ich bitte Dich um Vergebung und Wohlergehen im Diesseits und im Jenseits."
-                        </div>
-                        <div class="dua-click-hint">🔄 Tippen zum Umdrehen</div>
-                    </div>
-                    <div class="dua-back">
-                        <div class="dua-header">Ein Segen für dein Herz</div>
-                        <div class="dua-back-text">
-                            "Möge dieses Gebet dich an jedem Tag deines Lebens begleiten, dir Schutz schenken und dein Herz stets in tiefem Frieden wiegen." 🤍
-                        </div>
-                        <div class="dua-click-hint" style="margin-top: 15px;">🔄 Tippen zum Zurückdrehen</div>
-                    </div>
+            <!-- LIEBESERKLÄRUNG TEXT VOR DUA -->
+            <div class="dua-intro-text">
+                Ich liebe dich von ganzem Herzen, Kauko meine große Liebe.
+            </div>
+
+            <!-- FESTES DUA SCHILD -->
+            <div class="dua-box">
+                <div class="dua-header">Bittgebet für dich</div>
+                <div class="dua-arabic">
+                    اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالآخِرَةِ
+                </div>
+                <div class="dua-transliteration">
+                    "Allahumma inni as'alukal-'afwa wal-'afiyah fid-dunya wal-akhirah"
+                </div>
+                <div class="dua-translation">
+                    "O Allah, ich bitte Dich um Vergebung und Wohlergehen im Diesseits und im Jenseits."
                 </div>
             </div>
 
@@ -950,7 +905,7 @@
             }, 300);
         }
 
-        // MUSIK SYSTEM (REPARIERT)
+        // MUSIK SYSTEM
         const audio = document.getElementById('bg-music');
         const musicBtn = document.getElementById('music-btn');
         let isPlaying = false;
