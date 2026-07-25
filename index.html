@@ -1,4 +1,618 @@
-<!-- SLIDE 2: DEUTSCHLANDKARTE & FRAGE -->
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kausser Barometer - Ein besonderes Geschenk ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-light: #f3effe;
+            --card-bg: rgba(235, 223, 255, 0.85);
+            --card-border: rgba(131, 111, 255, 0.35);
+            --accent-purple: #836fff;
+            --accent-soft: #b0a2ff;
+            --accent-red: #ff2a55;
+            --text-dark: #2a2438;
+            --text-muted: #5a526c;
+            --gold: #d4a017;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(131, 111, 255, 0.2) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(255, 182, 193, 0.3) 0px, transparent 50%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        #canvas-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid var(--accent-purple);
+            color: var(--accent-purple);
+            padding: 10px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(131, 111, 255, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .music-control:hover {
+            background: var(--accent-purple);
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        .app-container {
+            width: 92%;
+            max-width: 680px;
+            min-height: 600px;
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 2px solid var(--card-border);
+            border-radius: 28px;
+            box-shadow: 0 15px 35px rgba(131, 111, 255, 0.2);
+            padding: 35px 25px;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1, h2 {
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--accent-purple);
+        }
+
+        h1 { font-size: 2.1rem; }
+        h2 { font-size: 1.7rem; }
+
+        p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--accent-purple), #6a52f8);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(131, 111, 255, 0.35);
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            outline: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(131, 111, 255, 0.5);
+        }
+
+        /* FINGERPRINT SCANNER */
+        .scanner-wrapper {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin: 20px auto;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            border: 3px dashed var(--accent-purple);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            touch-action: manipulation;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(131, 111, 255, 0.15);
+        }
+
+        .fingerprint-svg {
+            width: 75px;
+            height: 75px;
+            fill: none;
+            stroke: var(--accent-purple);
+            stroke-width: 2;
+            stroke-linecap: round;
+        }
+
+        .scan-laser {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent-red);
+            box-shadow: 0 0 10px var(--accent-red);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .scanning .scan-laser {
+            opacity: 1;
+            animation: scanAnim 1.2s infinite alternate ease-in-out;
+        }
+
+        @keyframes scanAnim {
+            0% { top: 10%; }
+            100% { top: 85%; }
+        }
+
+        .scan-progress-bar {
+            width: 200px;
+            height: 8px;
+            background: rgba(131, 111, 255, 0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .scan-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-purple);
+            transition: width 0.1s linear;
+        }
+
+        .scan-status {
+            font-weight: 600;
+            margin-top: 12px;
+            min-height: 25px;
+            color: var(--accent-purple);
+            font-size: 0.95rem;
+        }
+
+        /* HOCHWERTIGE MAP STYLINGS */
+        .map-container {
+            width: 100%;
+            max-width: 360px;
+            height: 290px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            border: 2px solid var(--card-border);
+            position: relative;
+            margin: 10px auto 15px auto;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(131, 111, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .map-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* QUIZ BUTTONS */
+        .quiz-options {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            max-width: 400px;
+            margin: 10px 0;
+        }
+
+        .quiz-btn {
+            background: rgba(255, 255, 255, 0.85);
+            border: 2px solid var(--card-border);
+            color: var(--text-dark);
+            padding: 10px 18px;
+            border-radius: 14px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .quiz-btn:hover {
+            background: var(--accent-purple);
+            color: #ffffff;
+            border-color: var(--accent-purple);
+        }
+
+        .quiz-answer {
+            margin-top: 10px;
+            font-size: 1.1rem;
+            color: var(--accent-red);
+            font-weight: 700;
+            min-height: 30px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        /* CARDS GRID (10 REASONS) */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            width: 100%;
+            margin: 15px 0;
+            max-height: 380px;
+            overflow-y: auto;
+            padding: 5px;
+        }
+
+        .cards-grid::-webkit-scrollbar { width: 6px; }
+        .cards-grid::-webkit-scrollbar-thumb {
+            background: var(--accent-soft);
+            border-radius: 10px;
+        }
+
+        .flip-card {
+            background-color: transparent;
+            height: 125px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 10px;
+            box-shadow: 0 4px 12px rgba(131, 111, 255, 0.12);
+            border: 2px solid var(--card-border);
+            overflow: hidden;
+        }
+
+        .flip-card-front {
+            background: rgba(255, 255, 255, 0.85);
+            color: var(--accent-purple);
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .flip-card-front:hover {
+            border-color: var(--accent-purple);
+        }
+
+        .flip-card-back {
+            background: var(--accent-purple);
+            color: #ffffff;
+            transform: rotateY(180deg);
+            line-height: 1.3;
+            font-weight: 500;
+            word-wrap: break-word;
+            hyphens: auto;
+        }
+
+        .special-card-container {
+            width: 100%;
+            margin-top: 15px;
+            display: none;
+            animation: fadeInCard 0.8s ease forwards;
+        }
+
+        @keyframes fadeInCard {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .special-card {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid var(--gold);
+            border-radius: 18px;
+            padding: 16px;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 15px rgba(212, 160, 23, 0.2);
+        }
+
+        /* THERMOMETER */
+        .interactive-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .thermo-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px 25px;
+            border-radius: 30px;
+            border: 2px solid var(--card-border);
+            font-weight: 600;
+        }
+
+        .thermo-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-red);
+        }
+
+        .hold-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px dashed var(--accent-purple);
+            color: var(--text-dark);
+            padding: 14px 28px;
+            border-radius: 50px;
+            cursor: pointer;
+            user-select: none;
+            touch-action: manipulation;
+            position: relative;
+            overflow: hidden;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .hold-progress {
+            position: absolute;
+            top: 0; left: 0; bottom: 0;
+            width: 0%;
+            background: rgba(131, 111, 255, 0.25);
+            transition: width 0.1s linear;
+        }
+
+        .secret-message-box {
+            margin-top: 5px;
+            font-size: 1.05rem;
+            color: var(--accent-purple);
+            font-weight: 600;
+            min-height: 30px;
+        }
+
+        /* BAROMETER */
+        .barometer-container {
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .barometer-outer {
+            width: 100%;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            padding: 3px;
+            border: 2px solid var(--card-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .barometer-inner {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-red));
+            border-radius: 16px;
+            transition: width 0.4s ease;
+        }
+
+        .barometer-display {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-top: 15px;
+            color: var(--accent-purple);
+            font-family: monospace;
+        }
+
+        .error-message {
+            color: var(--accent-red);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            min-height: 50px;
+            animation: pulseError 0.8s infinite alternate;
+        }
+
+        @keyframes pulseError {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        /* PHOTO & FINAL STICKER */
+        .photo-frame {
+            display: inline-block;
+            border-radius: 20px;
+            border: 4px solid var(--accent-purple);
+            box-shadow: 0 8px 25px rgba(131, 111, 255, 0.25);
+            overflow: hidden;
+            margin: 15px 0 10px 0;
+            background-color: transparent;
+            max-width: 85%;
+            max-height: 260px;
+        }
+
+        .photo-frame img {
+            display: block;
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+        }
+
+        .pulsing-heart {
+            font-size: 2.8rem;
+            color: var(--accent-red);
+            animation: heartBeat 1.3s infinite ease-in-out;
+            margin-bottom: 5px;
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.2); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.2); }
+            70% { transform: scale(1); }
+        }
+
+        .typing-text {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 5px 0;
+        }
+
+        .final-personal-text {
+            font-family: 'Caveat', cursive;
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            line-height: 1.3;
+            margin-top: 5px;
+            font-weight: 700;
+        }
+
+        .webp-sticker-container {
+            margin-top: 15px;
+            width: 100%;
+            max-width: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .webp-sticker-container img {
+            width: 100%;
+            height: auto;
+            max-height: 180px;
+            border-radius: 16px;
+            object-fit: contain;
+            filter: drop-shadow(0 6px 15px rgba(131, 111, 255, 0.35));
+        }
+
+        @media (max-width: 480px) {
+            .app-container { padding: 25px 16px; }
+            h1 { font-size: 1.7rem; }
+            h2 { font-size: 1.35rem; }
+            .quiz-options { flex-direction: column; }
+            .cards-grid { grid-template-columns: repeat(2, 1fr); max-height: 340px; }
+            .flip-card { height: 135px; }
+            .final-personal-text { font-size: 1.55rem; }
+            .map-container { height: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas-particles"></canvas>
+
+    <audio id="bg-music" loop preload="auto">
+        <source src="musik.mp3" type="audio/mpeg">
+        <source src="Musik.mp3" type="audio/mpeg">
+        <source src="musik.MP3" type="audio/mpeg">
+    </audio>
+
+    <button class="music-control" id="music-btn" onclick="toggleMusic()">
+        🎵 Musik abspielen
+    </button>
+
+    <div class="app-container">
+
+        <!-- SLIDE 1: SCANNER -->
+        <div class="slide active" id="slide-1">
+            <div class="pulsing-heart">❤️</div>
+            <h2>Willkommen, Kausser</h2>
+            <p>Lege deinen Finger auf den Sensor, um dich zu authentifizieren...</p>
+
+            <div class="scanner-wrapper" id="scanner-btn">
+                <div class="scan-laser"></div>
+                <svg class="fingerprint-svg" viewBox="0 0 512 512">
+                    <path d="M256,48C141.1,48,48,141.1,48,256c0,22.7,3.3,44.7,9.4,65.5c3.2,10.8,14.6,17,25.4,13.8c10.8-3.2,17-14.6,13.8-25.4C92.2,293.7,89.3,275.2,89.3,256c0-91.9,74.8-166.7,166.7-166.7s166.7,74.8,166.7,166.7c0,19.2-2.9,37.7-8.3,53.9c-3.2,10.8,3,22.2,13.8,25.4c10.8,3.2,22.2-3,25.4-13.8c6.1-20.8,9.4-42.8,9.4-65.5C464,141.1,370.9,48,256,48z"/>
+                    <path d="M256,112c-79.4,0-144,64.6-144,144c0,27.8,7.9,53.8,21.5,76c6,9.8,18.8,12.8,28.6,6.8c9.8-6,12.8-18.8,6.8-28.6c-10.3-16.8-16.3-36.5-16.3-57.5c0-59.5,48.5-108,108-108s108,48.5,108,108c0,21-6,40.7-16.3,57.5c-6,9.8-3,22.6,6.8,28.6c9.8,6,22.6,3,28.6-6.8c13.6-22.2,21.5-48.2,21.5-76C400,176.6,335.4,112,256,112z"/>
+                    <path d="M256,176c-44.1,0-80,35.9-80,80c0,28.3,14.7,53.2,36.9,67.6c9.6,6.2,22.4,3.4,28.6-6.2c6.2-9.6,3.4-22.4-6.2-28.6c-13.4-8.7-22.3-23.7-22.3-40.8c0-26.5,21.5-48,48-48s48,21.5,48,48c0,17.1-8.9,32.1-22.3,40.8c-9.6,6.2-12.4,19-6.2,28.6c6.2,9.6,19,12.4,28.6,6.2c22.2-14.4,36.9-39.3,36.9-67.6C336,211.9,300.1,176,256,176z"/>
+                </svg>
+            </div>
+
+            <div class="scan-progress-bar">
+                <div class="scan-progress-fill" id="scan-bar"></div>
+            </div>
+            
+            <div class="scan-status" id="scan-status">Gedrückt halten zum Scannen...</div>
+            <button class="btn" id="slide1-next" style="display: none;" onclick="nextSlide(2)">Zugriff gewährt ❤️</button>
+        </div>
+
+        <!-- SLIDE 2: DEUTSCHLANDKARTE & FRAGE -->
         <div class="slide" id="slide-2">
             <h2>Eine kurze Frage...</h2>
             <p>Wie weit ist meine Liebe bereit für dich zu gehen?</p>
@@ -67,3 +681,401 @@
             <div class="quiz-answer" id="quiz-answer-text"></div>
             <button class="btn" id="slide2-next" style="display: none;" onclick="nextSlide(3)">Weiter ✨</button>
         </div>
+
+        <!-- SLIDE 3: 10 GRÜNDE -->
+        <div class="slide" id="slide-3">
+            <h2>10 Dinge, die ich an dir liebe ❤️</h2>
+            <p>Klicke auf die Kärtchen, um sie umzudrehen:</p>
+
+            <div class="cards-grid" id="cards-container"></div>
+
+            <div class="special-card-container" id="special-card-box">
+                <div class="special-card">
+                    ✨ Es gibt noch Tausende mehr Gründe und für jeden einzelnen liebe ich dich. ✨
+                </div>
+            </div>
+
+            <button class="btn" id="slide3-next" style="display: none;" onclick="nextSlide(4)">Weiter &rarr;</button>
+        </div>
+
+        <!-- SLIDE 4: TEMPERATUR -->
+        <div class="slide" id="slide-4">
+            <h2>Liebes-Temperatur</h2>
+            <p>Ein kleiner Check, um die Wärme in meinem Herzen für dich zu messen...</p>
+
+            <div class="interactive-section">
+                <div class="thermo-box">
+                    <span>🌡️ Temperatur:</span>
+                    <span class="thermo-value" id="thermo-val">36°C</span>
+                </div>
+
+                <div class="hold-btn" id="hold-button">
+                    <div class="hold-progress" id="hold-progress"></div>
+                    <span style="position: relative; z-index: 2;">🔒 Halte gedrückt für Geheimnachricht</span>
+                </div>
+                
+                <div class="secret-message-box" id="secret-message"></div>
+            </div>
+
+            <button class="btn" onclick="nextSlide(5)">Bereit fürs Barometer? 🔥</button>
+        </div>
+
+        <!-- SLIDE 5: BAROMETER -->
+        <div class="slide" id="slide-5">
+            <h2>Lass uns messen, wie groß meine Liebe für dich ist</h2>
+            <p>Starte den Test...</p>
+
+            <div class="barometer-container">
+                <div class="barometer-outer">
+                    <div class="barometer-inner" id="barometer-bar"></div>
+                </div>
+                <div class="barometer-display" id="barometer-text">0 %</div>
+            </div>
+
+            <div class="error-message" id="error-message"></div>
+
+            <button class="btn" id="start-barometer-btn" onclick="runBarometer()">Messung Starten 🚀</button>
+            <button class="btn" id="slide5-next" style="display: none;" onclick="nextSlide(6)">Zum Ergebnis ❤️</button>
+        </div>
+
+        <!-- SLIDE 6: ERGEBNIS -->
+        <div class="slide" id="slide-6">
+            <div class="pulsing-heart">❤️</div>
+            
+            <div class="photo-frame">
+                <img id="user-photo" src="foto.jpg" alt="Unser Foto" onerror="tryNextImage(this)">
+            </div>
+
+            <div class="typing-text">Ergebnis: Nicht messbar. ❤️</div>
+
+            <div class="final-personal-text">
+                "Keine Zahl kann beschreiben, wie viel du mir bedeutest. Danke, dass du mein Leben schöner machst. Ich freue mich auf alles, was noch vor uns liegt."
+            </div>
+
+            <!-- STICKER AM ENDE -->
+            <div class="webp-sticker-container">
+                <img id="sticker-img" src="kaussernathansticker.webp" alt="Sticker" onerror="tryNextSticker(this)">
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // BILD FALLBACK FÜR FOTO
+        const imageFallbacks = ['foto.jpg', 'Foto.jpg', 'foto.jpeg', 'Foto.jpeg', 'foto.png', 'Foto.png'];
+        let imgIdx = 0;
+        function tryNextImage(imgElement) {
+            imgIdx++;
+            if (imgIdx < imageFallbacks.length) {
+                imgElement.src = imageFallbacks[imgIdx];
+            } else {
+                imgElement.src = 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=500&auto=format&fit=crop';
+            }
+        }
+
+        // STICKER FALLBACK (Falls Dateiname variiert)
+        const stickerFallbacks = [
+            'kaussernathansticker.webp', 
+            'Kaussernathansticker.webp', 
+            'kaussernathansticker.WEBP',
+            'kaussernathansticker.png'
+        ];
+        let stickerIdx = 0;
+        function tryNextSticker(imgElement) {
+            stickerIdx++;
+            if (stickerIdx < stickerFallbacks.length) {
+                imgElement.src = stickerFallbacks[stickerIdx];
+            }
+        }
+
+        // SLIDES NAVIGATION
+        let currentSlide = 1;
+        function nextSlide(slideNumber) {
+            const currentEl = document.getElementById(`slide-${currentSlide}`);
+            const nextEl = document.getElementById(`slide-${slideNumber}`);
+
+            if (currentEl) currentEl.classList.remove('active');
+
+            setTimeout(() => {
+                currentSlide = slideNumber;
+                if (nextEl) nextEl.classList.add('active');
+                if (slideNumber === 4) startThermoAnim();
+            }, 300);
+        }
+
+        // AUDIO SYSTEM
+        const audio = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('music-btn');
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                musicBtn.innerHTML = '🎵 Musik an';
+                isPlaying = false;
+            } else {
+                audio.load();
+                let playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        musicBtn.innerHTML = '⏸️ Musik aus';
+                        isPlaying = true;
+                    }).catch(error => {
+                        alert("Musik konnte nicht abgespielt werden. Prüfe, ob 'musik.mp3' im Repository liegt!");
+                    });
+                }
+            }
+        }
+
+        // SCANNER
+        const scannerBtn = document.getElementById('scanner-btn');
+        const scanBar = document.getElementById('scan-bar');
+        const scanStatus = document.getElementById('scan-status');
+        const slide1Next = document.getElementById('slide1-next');
+        
+        let scanTimer = null;
+        let scanProgress = 0;
+        let isScanned = false;
+
+        function startScan(e) {
+            if (isScanned) return;
+            if (e.type === 'touchstart') e.preventDefault();
+            
+            if (!isPlaying) toggleMusic();
+
+            scannerBtn.classList.add('scanning');
+            scanStatus.innerText = "Finger wird gescannt...";
+
+            scanTimer = setInterval(() => {
+                scanProgress += 5;
+                scanBar.style.width = scanProgress + '%';
+
+                if (scanProgress >= 100) {
+                    clearInterval(scanTimer);
+                    isScanned = true;
+                    scannerBtn.classList.remove('scanning');
+                    scanStatus.innerText = "Kausser erkannt! ❤️";
+                    scanStatus.style.color = "#ff2a55";
+                    slide1Next.style.display = "inline-block";
+                }
+            }, 60);
+        }
+
+        function stopScan() {
+            if (isScanned) return;
+            clearInterval(scanTimer);
+            scannerBtn.classList.remove('scanning');
+            scanProgress = 0;
+            scanBar.style.width = '0%';
+            scanStatus.innerText = "Gedrückt halten zum Scannen...";
+        }
+
+        scannerBtn.addEventListener('mousedown', startScan);
+        scannerBtn.addEventListener('mouseup', stopScan);
+        scannerBtn.addEventListener('mouseleave', stopScan);
+        scannerBtn.addEventListener('touchstart', startScan);
+        scannerBtn.addEventListener('touchend', stopScan);
+
+        // QUIZ
+        function checkAnswer(choice) {
+            const answerBox = document.getElementById('quiz-answer-text');
+            const nextBtn = document.getElementById('slide2-next');
+
+            answerBox.style.opacity = '0';
+            setTimeout(() => {
+                answerBox.innerText = "Die richtige Antwort war immer: egal wie weit.";
+                answerBox.style.opacity = '1';
+                nextBtn.style.display = "inline-block";
+            }, 200);
+        }
+
+        // 10 GRÜNDE
+        const reasons = [
+            "Du bringst Farbe in meinen grauen Alltag.",
+            "Deine Liebe reicht aus, um die gesamte Welt damit zu versorgen.",
+            "Deine direkte und ehrliche Art, du trägst dein Herz auf der Zunge.",
+            "Deine Fürsorglichkeit.",
+            "Du bist der witzigste Mensch den ich kenne mit dem besten Humor.",
+            "Du bist die attraktivste Frau auf dieser Erde, ich bin verrückt nach dir.",
+            "Du strebst nach einem rechtschaffenen, gottgefälligen Leben.",
+            "Dein Grinsen wenn man dir schmeichelt.",
+            "Wenn du einfach du bist und singst, aufräumst, Kreuzworträtsel machst und ich dabei bin.",
+            "Deine Gabe Stille angenehm zu machen und gleichzeitig Langeweile zu brechen und einfach zu reden."
+        ];
+
+        const cardsContainer = document.getElementById('cards-container');
+        const flippedCards = new Set();
+
+        reasons.forEach((text, index) => {
+            const card = document.createElement('div');
+            card.className = 'flip-card';
+            
+            let fontSize = '0.82rem';
+            if (text.length > 70) fontSize = '0.68rem';
+            else if (text.length > 45) fontSize = '0.75rem';
+
+            card.innerHTML = `
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        #${index + 1} ❤️
+                    </div>
+                    <div class="flip-card-back" style="font-size: ${fontSize};">
+                        ${text}
+                    </div>
+                </div>
+            `;
+
+            card.addEventListener('click', () => {
+                card.classList.toggle('flipped');
+                if(card.classList.contains('flipped')) {
+                    flippedCards.add(index);
+                }
+
+                if (flippedCards.size === reasons.length) {
+                    document.getElementById('special-card-box').style.display = 'block';
+                    document.getElementById('slide3-next').style.display = 'inline-block';
+                }
+            });
+
+            cardsContainer.appendChild(card);
+        });
+
+        // THERMOMETER
+        function startThermoAnim() {
+            const thermoVal = document.getElementById('thermo-val');
+            const temps = ['36°C', '50°C', '100°C', '999°C 🔥'];
+            let idx = 0;
+
+            const interval = setInterval(() => {
+                idx++;
+                if (idx < temps.length) {
+                    thermoVal.innerText = temps[idx];
+                } else {
+                    clearInterval(interval);
+                }
+            }, 800);
+        }
+
+        // GEHEIMNACHRICHT BUTTON
+        const holdBtn = document.getElementById('hold-button');
+        const holdProgress = document.getElementById('hold-progress');
+        const secretMsg = document.getElementById('secret-message');
+        let progressInterval = null;
+        let holdTime = 0;
+
+        function startHold(e) {
+            if (e.type === 'touchstart') e.preventDefault();
+            holdTime = 0;
+            holdProgress.style.width = '0%';
+            progressInterval = setInterval(() => {
+                holdTime += 100;
+                holdProgress.style.width = (holdTime / 2500) * 100 + '%';
+                if (holdTime >= 2500) {
+                    clearInterval(progressInterval);
+                    secretMsg.innerText = "✨ Du bist das Schönste, was mir je passiert ist!";
+                }
+            }, 100);
+        }
+
+        function endHold() {
+            clearInterval(progressInterval);
+            if (holdTime < 2500) holdProgress.style.width = '0%';
+        }
+
+        holdBtn.addEventListener('mousedown', startHold);
+        holdBtn.addEventListener('mouseup', endHold);
+        holdBtn.addEventListener('mouseleave', endHold);
+        holdBtn.addEventListener('touchstart', startHold);
+        holdBtn.addEventListener('touchend', endHold);
+
+        // BAROMETER
+        function runBarometer() {
+            const bar = document.getElementById('barometer-bar');
+            const text = document.getElementById('barometer-text');
+            const error = document.getElementById('error-message');
+            const startBtn = document.getElementById('start-barometer-btn');
+            const nextBtn = document.getElementById('slide5-next');
+
+            startBtn.style.display = 'none';
+
+            const steps = [
+                { pct: '10 %', width: '10%' },
+                { pct: '50 %', width: '50%' },
+                { pct: '90 %', width: '90%' },
+                { pct: '100 %', width: '100%' },
+                { pct: '1000 %', width: '100%' },
+                { pct: '10000 %', width: '100%' },
+                { pct: '999999 %', width: '100%' }
+            ];
+
+            let stepIdx = 0;
+            const interval = setInterval(() => {
+                if (stepIdx < steps.length) {
+                    text.innerText = steps[stepIdx].pct;
+                    bar.style.width = steps[stepIdx].width;
+                    stepIdx++;
+                } else {
+                    clearInterval(interval);
+                    text.innerText = "⚠️ ERROR";
+                    text.style.color = "#ff2a55";
+                    error.innerHTML = "Messfehler erkannt.<br>Die Skala reicht nicht aus.";
+                    nextBtn.style.display = 'inline-block';
+                }
+            }, 600);
+        }
+
+        // PARTICLES
+        const canvas = document.getElementById('canvas-particles');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const particles = [];
+        class HeartParticle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 20;
+                this.size = Math.random() * 12 + 8;
+                this.speedY = Math.random() * 1.5 + 0.5;
+                this.opacity = Math.random() * 0.4 + 0.2;
+                this.swing = Math.random() * 0.05;
+                this.angle = Math.random() * Math.PI * 2;
+            }
+            update() {
+                this.y -= this.speedY;
+                this.angle += this.swing;
+                this.x += Math.sin(this.angle) * 0.5;
+                if (this.y < -20) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = '#ff2a55';
+                ctx.font = `${this.size}px serif`;
+                ctx.fillText('❤️', this.x, this.y);
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 22; i++) {
+            particles.push(new HeartParticle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+    </script>
+</body>
+</html>
