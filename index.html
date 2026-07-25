@@ -55,28 +55,35 @@
             z-index: 1;
         }
 
-        .music-control {
+        .top-controls {
             position: fixed;
             top: 20px;
             right: 20px;
             z-index: 100;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .music-control, .open-me-shortcut {
             background: rgba(255, 255, 255, 0.85);
             border: 2px solid var(--accent-purple);
             color: var(--accent-deep);
-            padding: 10px 18px;
+            padding: 8px 16px;
             border-radius: 30px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(138, 99, 210, 0.2);
             backdrop-filter: blur(5px);
         }
 
-        .music-control:hover {
+        .music-control:hover, .open-me-shortcut:hover {
             background: var(--accent-purple);
             color: #ffffff;
             transform: scale(1.05);
@@ -575,7 +582,7 @@
             line-height: 1.3;
         }
 
-        /* FESTES DUA SCHILD (NICHT UMDREHBAR) */
+        /* FESTES DUA SCHILD */
         .dua-box {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(243, 235, 255, 0.92));
             border: 2px solid var(--gold);
@@ -625,6 +632,95 @@
             line-height: 1.4;
         }
 
+        /* ÖFFNE MICH WENN SEKTION */
+        .open-me-section {
+            width: 100%;
+            margin: 25px 0 15px 0;
+            background: rgba(255, 255, 255, 0.7);
+            border: 2px dashed var(--accent-purple);
+            border-radius: 24px;
+            padding: 20px 15px;
+            box-shadow: 0 8px 20px rgba(138, 99, 210, 0.12);
+        }
+
+        .open-me-title {
+            font-family: 'Caveat', cursive;
+            font-size: 1.8rem;
+            color: var(--accent-deep);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .open-me-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .open-me-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            width: 100%;
+        }
+
+        .open-me-card {
+            background: #ffffff;
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 12px 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 10px rgba(138, 99, 210, 0.08);
+        }
+
+        .open-me-card:hover {
+            border-color: var(--accent-purple);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(138, 99, 210, 0.18);
+        }
+
+        .open-me-card .icon {
+            font-size: 1.4rem;
+        }
+
+        .open-me-card .label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--accent-deep);
+            line-height: 1.2;
+        }
+
+        .audio-container {
+            width: 100%;
+            margin-top: 15px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            background: #ffffff;
+            padding: 12px;
+            border-radius: 16px;
+            border: 1px solid var(--accent-soft);
+            animation: fadeInCard 0.4s ease forwards;
+        }
+
+        .audio-container audio {
+            width: 100%;
+            height: 38px;
+            outline: none;
+        }
+
+        .audio-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+        }
+
         .webp-sticker-container {
             margin-top: 15px;
             width: 100%;
@@ -655,6 +751,9 @@
             .dua-intro-text { font-size: 1.4rem; }
             .map-container { height: 250px; }
             .dua-arabic { font-size: 1.35rem; }
+            .open-me-grid { grid-template-columns: 1fr; }
+            .top-controls { top: 10px; right: 10px; gap: 5px; }
+            .music-control, .open-me-shortcut { padding: 6px 12px; font-size: 0.78rem; }
         }
     </style>
 </head>
@@ -668,9 +767,14 @@
         <source src="musik.MP3" type="audio/mpeg">
     </audio>
 
-    <button class="music-control" id="music-btn" onclick="toggleMusic()">
-        🎵 Musik abspielen
-    </button>
+    <div class="top-controls">
+        <button class="open-me-shortcut" onclick="jumpToOpenMe()">
+            ✉️ Öffne mich...
+        </button>
+        <button class="music-control" id="music-btn" onclick="toggleMusic()">
+            🎵 Musik abspielen
+        </button>
+    </div>
 
     <div class="app-container">
 
@@ -817,7 +921,7 @@
             <button class="btn" id="slide5-next" style="display: none;" onclick="nextSlide(6)">Zum Ergebnis 💜</button>
         </div>
 
-        <!-- SLIDE 6: ERGEBNIS & DEIN PERSÖNLICHER TEXT -->
+        <!-- SLIDE 6: ERGEBNIS, DUA & SPRACHNACHRICHTEN -->
         <div class="slide" id="slide-6">
             <div class="pulsing-heart">💜</div>
             
@@ -851,6 +955,36 @@
                 </div>
                 <div class="dua-translation">
                     "O Allah, ich bitte Dich um Vergebung und Wohlergehen im Diesseits und im Jenseits."
+                </div>
+            </div>
+
+            <!-- ÖFFNE MICH WENN SEKTION -->
+            <div class="open-me-section" id="open-me-target">
+                <div class="open-me-title">Öffne mich, wenn... 💌</div>
+                <div class="open-me-subtitle">Klicke auf eine Kategorie, um meine Stimme zu hören:</div>
+
+                <div class="open-me-grid">
+                    <div class="open-me-card" onclick="playVoiceNote('Vermisst.m4a', 'Wenn du mich vermisst 💜')">
+                        <span class="icon">🥺</span>
+                        <span class="label">...du mich vermisst</span>
+                    </div>
+                    <div class="open-me-card" onclick="playVoiceNote('Trost.m4a', 'Wenn du traurig bist 🌧️')">
+                        <span class="icon">💔</span>
+                        <span class="label">...du traurig bist</span>
+                    </div>
+                    <div class="open-me-card" onclick="playVoiceNote('Motivation.m4a', 'Wenn du Motivation brauchst 🚀')">
+                        <span class="icon">✨</span>
+                        <span class="label">...du Motivation brauchst</span>
+                    </div>
+                    <div class="open-me-card" onclick="playVoiceNote('Streit.m4a', 'Wenn wir uns gestritten haben 🕊️')">
+                        <span class="icon">🤍</span>
+                        <span class="label">...wir uns gestritten haben</span>
+                    </div>
+                </div>
+
+                <div class="audio-container" id="audio-container">
+                    <div class="audio-title" id="audio-title-text">Sprachnachricht lädt...</div>
+                    <audio id="voice-player" controls preload="auto"></audio>
                 </div>
             </div>
 
@@ -934,6 +1068,44 @@
                     alert("Musik konnte nicht abgespielt werden. Stelle sicher, dass 'musik.mp3' existiert.");
                 });
             }
+        }
+
+        // SPRACHNACHRICHTEN PLAYBACK
+        const voicePlayer = document.getElementById('voice-player');
+        const audioContainer = document.getElementById('audio-container');
+        const audioTitleText = document.getElementById('audio-title-text');
+
+        function playVoiceNote(file, titleText) {
+            // Pausiere Hintergrundmusik damit man Sprachnachricht gut hört
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                musicBtn.innerHTML = '🎵 Musik an';
+            }
+
+            audioContainer.style.display = 'flex';
+            audioTitleText.innerText = titleText;
+            voicePlayer.src = file;
+            voicePlayer.play().catch(e => {
+                console.log("Audio konnte nicht gestartet werden:", e);
+            });
+        }
+
+        // SCHNELLZUGRIFFS-BUTTON
+        function jumpToOpenMe() {
+            if (currentSlide !== 6) {
+                const currentEl = document.getElementById(`slide-${currentSlide}`);
+                if (currentEl) currentEl.classList.remove('active');
+                currentSlide = 6;
+                document.getElementById('slide-6').classList.add('active');
+            }
+
+            setTimeout(() => {
+                const target = document.getElementById('open-me-target');
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 300);
         }
 
         // SCANNER
