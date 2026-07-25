@@ -3,1362 +3,684 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kausser Barometer - Ein besonderes Geschenk ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Von ganzem Herzen</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            /* PASTELL-LILA FARBPALETTE */
-            --bg-light: #f1ecfe;
-            --card-bg: rgba(238, 230, 255, 0.88);
-            --card-border: rgba(147, 112, 219, 0.4);
-            --accent-purple: #8a63d2;
-            --accent-deep: #6f42c1;
-            --accent-soft: #c4b5fd;
-            --accent-red: #e04870;
-            --text-dark: #2d2342;
-            --text-muted: #5f5276;
-            --gold: #d4af37;
-            --gold-light: rgba(212, 175, 55, 0.15);
+            --primary: #9d4edd;
+            --primary-light: #e0aaff;
+            --accent: #ff99c8;
+            --gold: #f7d070;
+            --glass-bg: rgba(255, 255, 255, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.7);
+            --shadow-glow: 0 15px 35px rgba(157, 78, 221, 0.2);
+            --shadow-hover: 0 20px 45px rgba(157, 78, 221, 0.35);
+            --text-main: #3c096c;
+            --text-dark: #240046;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Poppins', sans-serif;
-            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         body {
-            background-color: var(--bg-light);
-            background-image: 
-                radial-gradient(at 10% 10%, rgba(168, 139, 250, 0.25) 0px, transparent 50%),
-                radial-gradient(at 90% 90%, rgba(192, 132, 252, 0.2) 0px, transparent 50%),
-                radial-gradient(at 50% 50%, rgba(221, 214, 254, 0.5) 0px, transparent 100%);
-            color: var(--text-dark);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #10002b, #240046, #3c096c, #5a189a);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow-x: hidden;
+            overflow: hidden;
             position: relative;
-            padding: 20px 0;
+            color: var(--text-main);
         }
 
-        #canvas-particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        /* Schwimmende Hintergrund-Elemente */
+        .bg-element {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            animation: float-bg 12s ease-in-out infinite alternate;
+        }
+        .bg-1 {
+            width: 350px;
+            height: 350px;
+            background: rgba(224, 170, 255, 0.35);
+            top: -10%;
+            left: -10%;
+        }
+        .bg-2 {
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 153, 200, 0.3);
+            bottom: -10%;
+            right: -10%;
+            animation-delay: -6s;
+        }
+
+        @keyframes float-bg {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 40px) scale(1.1); }
+        }
+
+        /* Partikel / Herzen im Hintergrund */
+        .heart-particle {
+            position: absolute;
+            bottom: -30px;
+            font-size: 1.2rem;
             pointer-events: none;
             z-index: 1;
+            animation: floatUp 8s linear infinite;
+            opacity: 0;
+            filter: drop-shadow(0 0 6px rgba(224, 170, 255, 0.8));
         }
 
-        .top-controls {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: flex-end;
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-105vh) rotate(360deg) scale(1.2); opacity: 0; }
         }
 
-        .music-control, .open-me-shortcut {
-            background: rgba(255, 255, 255, 0.85);
-            border: 2px solid var(--accent-purple);
-            color: var(--accent-deep);
-            padding: 8px 16px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(138, 99, 210, 0.2);
-            backdrop-filter: blur(5px);
-        }
-
-        .music-control:hover, .open-me-shortcut:hover {
-            background: var(--accent-purple);
-            color: #ffffff;
-            transform: scale(1.05);
-        }
-
-        .app-container {
-            width: 92%;
-            max-width: 680px;
-            min-height: 600px;
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 2px solid var(--card-border);
-            border-radius: 28px;
-            box-shadow: 0 15px 35px rgba(111, 66, 193, 0.18);
-            padding: 35px 25px;
+        /* Hauptkarte (Glassmorphism) */
+        .card-container {
+            width: 90%;
+            max-width: 460px;
+            height: 680px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border: 1.5px solid var(--glass-border);
+            border-radius: 32px;
+            box-shadow: var(--shadow-glow), inset 0 1px 2px rgba(255,255,255,0.8);
             position: relative;
             z-index: 10;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
             overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        /* Header Navigation */
+        .card-header {
+            padding: 20px 24px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .dots-indicator {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(60, 9, 108, 0.25);
+            border-radius: 10px;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            width: 24px;
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary-light);
+        }
+
+        .slide-counter {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: rgba(60, 9, 108, 0.6);
+            letter-spacing: 1px;
+        }
+
+        /* Slides Inhaltsbereich */
+        .slides-wrapper {
+            flex: 1;
+            position: relative;
+            width: 100%;
+            height: 100%;
         }
 
         .slide {
-            display: none;
-            width: 100%;
-            opacity: 0;
-            transform: translateY(15px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        .slide.active {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        h1, h2 {
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--accent-deep);
-        }
-
-        h1 { font-size: 2.1rem; }
-        h2 { font-size: 1.7rem; }
-
-        p {
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 20px;
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-deep));
-            color: white;
-            border: none;
-            padding: 14px 32px;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(111, 66, 193, 0.3);
-            transition: all 0.3s ease;
-            margin-top: 15px;
-            outline: none;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(111, 66, 193, 0.45);
-        }
-
-        /* FINGERPRINT SCANNER */
-        .scanner-wrapper {
-            position: relative;
-            width: 130px;
-            height: 130px;
-            margin: 20px auto;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.7);
-            border: 3px dashed var(--accent-purple);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            user-select: none;
-            touch-action: manipulation;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(138, 99, 210, 0.15);
-        }
-
-        .fingerprint-svg {
-            width: 75px;
-            height: 75px;
-            fill: none;
-            stroke: var(--accent-purple);
-            stroke-width: 2;
-            stroke-linecap: round;
-        }
-
-        .scan-laser {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
-            background: var(--accent-red);
-            box-shadow: 0 0 10px var(--accent-red);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .scanning .scan-laser {
-            opacity: 1;
-            animation: scanAnim 1.2s infinite alternate ease-in-out;
-        }
-
-        @keyframes scanAnim {
-            0% { top: 10%; }
-            100% { top: 85%; }
-        }
-
-        .scan-progress-bar {
-            width: 200px;
-            height: 8px;
-            background: rgba(138, 99, 210, 0.15);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-
-        .scan-progress-fill {
             height: 100%;
-            width: 0%;
-            background: var(--accent-purple);
-            transition: width 0.1s linear;
-        }
-
-        .scan-status {
-            font-weight: 600;
-            margin-top: 12px;
-            min-height: 25px;
-            color: var(--accent-deep);
-            font-size: 0.95rem;
-        }
-
-        /* HOCHWERTIGE MAP STYLINGS */
-        .map-container {
-            width: 100%;
-            max-width: 360px;
-            height: 290px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            border: 2px solid var(--card-border);
-            position: relative;
-            margin: 10px auto 15px auto;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(138, 99, 210, 0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .map-svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* QUIZ BUTTONS */
-        .quiz-options {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            max-width: 400px;
-            margin: 10px 0;
-        }
-
-        .quiz-btn {
-            background: rgba(255, 255, 255, 0.88);
-            border: 2px solid var(--card-border);
-            color: var(--text-dark);
-            padding: 10px 18px;
-            border-radius: 14px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            flex: 1;
-        }
-
-        .quiz-btn:hover {
-            background: var(--accent-purple);
-            color: #ffffff;
-            border-color: var(--accent-purple);
-        }
-
-        .quiz-answer {
-            margin-top: 10px;
-            font-size: 1.1rem;
-            color: var(--accent-red);
-            font-weight: 700;
-            min-height: 30px;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        /* CARDS GRID (10 REASONS) */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 12px;
-            width: 100%;
-            margin: 15px 0;
-            max-height: 380px;
-            overflow-y: auto;
-            padding: 5px;
-        }
-
-        .cards-grid::-webkit-scrollbar { width: 6px; }
-        .cards-grid::-webkit-scrollbar-thumb {
-            background: var(--accent-soft);
-            border-radius: 10px;
-        }
-
-        .flip-card {
-            background-color: transparent;
-            height: 125px;
-            perspective: 1000px;
-            cursor: pointer;
-        }
-
-        .flip-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
-        }
-
-        .flip-card.flipped .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .flip-card-front, .flip-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px 10px;
-            box-shadow: 0 4px 12px rgba(138, 99, 210, 0.12);
-            border: 2px solid var(--card-border);
-            overflow: hidden;
-        }
-
-        .flip-card-front {
-            background: rgba(255, 255, 255, 0.88);
-            color: var(--accent-deep);
-            font-weight: 700;
-            font-size: 1.3rem;
-        }
-
-        .flip-card-front:hover {
-            border-color: var(--accent-purple);
-        }
-
-        .flip-card-back {
-            background: var(--accent-purple);
-            color: #ffffff;
-            transform: rotateY(180deg);
-            line-height: 1.3;
-            font-weight: 500;
-            word-wrap: break-word;
-            hyphens: auto;
-        }
-
-        .special-card-container {
-            width: 100%;
-            margin-top: 15px;
-            display: none;
-            animation: fadeInCard 0.8s ease forwards;
-        }
-
-        @keyframes fadeInCard {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .special-card {
-            background: rgba(255, 255, 255, 0.92);
-            border: 2px solid var(--gold);
-            border-radius: 18px;
-            padding: 16px;
-            color: var(--text-dark);
-            font-weight: 600;
-            font-size: 0.95rem;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
-        }
-
-        /* THERMOMETER */
-        .interactive-section {
+            padding: 25px 28px;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
-            gap: 15px;
-            width: 100%;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.96) translateY(15px);
+            pointer-events: none;
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
         }
 
-        .thermo-box {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: rgba(255, 255, 255, 0.75);
-            padding: 10px 25px;
-            border-radius: 30px;
-            border: 2px solid var(--card-border);
-            font-weight: 600;
+        .slide.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
         }
 
-        .thermo-value {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--accent-red);
-        }
-
-        .hold-btn {
-            background: rgba(255, 255, 255, 0.88);
-            border: 2px dashed var(--accent-purple);
+        /* Typografie & Stile */
+        .script-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
             color: var(--text-dark);
-            padding: 14px 28px;
-            border-radius: 50px;
-            cursor: pointer;
-            user-select: none;
-            touch-action: manipulation;
-            position: relative;
-            overflow: hidden;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            margin-bottom: 12px;
+            line-height: 1.1;
+            text-shadow: 0 2px 4px rgba(255,255,255,0.5);
         }
 
-        .hold-progress {
-            position: absolute;
-            top: 0; left: 0; bottom: 0;
-            width: 0%;
-            background: rgba(138, 99, 210, 0.25);
-            transition: width 0.1s linear;
+        .text-body {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #2b0754;
+            font-weight: 400;
+            margin-bottom: 15px;
         }
 
-        .secret-message-box {
-            margin-top: 5px;
-            font-size: 1.05rem;
-            color: var(--accent-deep);
-            font-weight: 600;
-            min-height: 30px;
-        }
-
-        /* BAROMETER */
-        .barometer-container {
-            width: 100%;
-            margin: 15px 0;
-        }
-
-        .barometer-outer {
-            width: 100%;
-            height: 28px;
-            background: rgba(255, 255, 255, 0.75);
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.8);
             border-radius: 20px;
-            padding: 3px;
-            border: 2px solid var(--card-border);
-            position: relative;
-            overflow: hidden;
+            padding: 16px 20px;
+            margin: 12px 0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+            width: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .barometer-inner {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--accent-purple), var(--accent-red));
+        .highlight-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(157, 78, 221, 0.15);
+        }
+
+        .dua-box {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(224, 170, 255, 0.45));
+            border-left: 4px solid var(--primary);
+            padding: 18px;
             border-radius: 16px;
-            transition: width 0.4s ease;
+            font-style: italic;
+            font-size: 0.93rem;
+            color: #240046;
+            margin: 15px 0;
+            box-shadow: 0 10px 25px rgba(157, 78, 221, 0.12);
+            text-align: left;
         }
 
-        .barometer-display {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-top: 15px;
-            color: var(--accent-deep);
-            font-family: monospace;
-        }
-
-        .error-message {
-            color: var(--accent-red);
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-top: 10px;
-            min-height: 50px;
-            animation: pulseError 0.8s infinite alternate;
-        }
-
-        @keyframes pulseError {
-            0% { opacity: 0.7; }
-            100% { opacity: 1; }
-        }
-
-        /* PHOTO & FINAL STICKER */
+        /* Polaroid Foto Style */
         .photo-frame {
-            display: inline-block;
-            border-radius: 20px;
-            border: 4px solid var(--accent-purple);
-            box-shadow: 0 8px 25px rgba(138, 99, 210, 0.25);
-            overflow: hidden;
-            margin: 15px 0 10px 0;
-            background-color: transparent;
-            max-width: 85%;
-            max-height: 240px;
+            width: 190px;
+            height: 220px;
+            background: #ffffff;
+            padding: 12px 12px 35px 12px;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15), 0 0 0 1px rgba(247, 208, 112, 0.5);
+            transform: rotate(-2deg);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            margin: 10px auto 18px;
+            cursor: pointer;
+        }
+
+        .photo-frame:hover {
+            transform: rotate(0deg) scale(1.03);
+            box-shadow: 0 20px 40px rgba(157, 78, 221, 0.25), 0 0 0 2px var(--gold);
         }
 
         .photo-frame img {
-            display: block;
-            width: auto;
-            height: auto;
-            max-width: 100%;
-            max-height: 230px;
-            object-fit: contain;
-        }
-
-        .pulsing-heart {
-            font-size: 2.8rem;
-            color: var(--accent-red);
-            animation: heartBeat 1.3s infinite ease-in-out;
-            margin-bottom: 5px;
-        }
-
-        @keyframes heartBeat {
-            0% { transform: scale(1); }
-            14% { transform: scale(1.2); }
-            28% { transform: scale(1); }
-            42% { transform: scale(1.2); }
-            70% { transform: scale(1); }
-        }
-
-        .typing-text {
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin: 5px 0 15px 0;
-        }
-
-        .final-personal-text {
-            font-family: 'Caveat', cursive;
-            font-size: 1.45rem;
-            color: var(--text-dark);
-            line-height: 1.45;
-            margin: 15px 0;
-            font-weight: 700;
-            text-align: left;
-            background: rgba(255, 255, 255, 0.6);
-            padding: 18px 20px;
-            border-radius: 20px;
-            border: 1.5px stroke rgba(138, 99, 210, 0.2);
-            box-shadow: 0 4px 15px rgba(138, 99, 210, 0.08);
-        }
-
-        .final-personal-text p {
-            font-family: 'Caveat', cursive;
-            color: var(--text-dark);
-            font-size: 1.45rem;
-            line-height: 1.45;
-            margin-bottom: 15px;
-        }
-
-        .final-personal-text p:last-child {
-            margin-bottom: 0;
-        }
-
-        /* LIEBESERKLÄRUNG TEXT VOR DUA */
-        .dua-intro-text {
-            font-family: 'Caveat', cursive;
-            font-size: 1.6rem;
-            color: var(--accent-deep);
-            font-weight: 700;
-            margin: 25px 0 10px 0;
-            line-height: 1.3;
-        }
-
-        /* FESTES DUA SCHILD */
-        .dua-box {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(243, 235, 255, 0.92));
-            border: 2px solid var(--gold);
-            border-radius: 22px;
-            padding: 20px 18px;
-            margin: 10px 0 15px 0;
             width: 100%;
-            box-shadow: 0 8px 22px rgba(212, 175, 55, 0.18);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
         }
 
-        .dua-header {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--gold);
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-
-        .dua-arabic {
-            font-family: 'Amiri', serif;
-            font-size: 1.55rem;
-            color: var(--accent-deep);
-            line-height: 1.7;
-            direction: rtl;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .dua-transliteration {
-            font-size: 0.88rem;
-            font-weight: 600;
-            color: var(--accent-purple);
-            font-style: italic;
-            margin-bottom: 6px;
-            line-height: 1.4;
-        }
-
-        .dua-translation {
-            font-size: 0.92rem;
-            color: var(--text-dark);
-            font-weight: 500;
-            line-height: 1.4;
-        }
-
-        /* ÖFFNE MICH WENN SEKTION */
-        .open-me-section {
-            width: 100%;
-            margin: 25px 0 15px 0;
-            background: rgba(255, 255, 255, 0.7);
-            border: 2px dashed var(--accent-purple);
-            border-radius: 24px;
-            padding: 20px 15px;
-            box-shadow: 0 8px 20px rgba(138, 99, 210, 0.12);
-        }
-
-        .open-me-title {
-            font-family: 'Caveat', cursive;
-            font-size: 1.8rem;
-            color: var(--accent-deep);
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .open-me-subtitle {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 15px;
-        }
-
-        .open-me-grid {
+        /* Interaktives Raster (Slide 7) */
+        .grid-buttons {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
             width: 100%;
+            margin-top: 10px;
         }
 
-        .open-me-card {
-            background: #ffffff;
-            border: 1.5px solid var(--card-border);
-            border-radius: 16px;
-            padding: 12px 10px;
+        .grid-btn {
+            background: rgba(255, 255, 255, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 18px;
+            padding: 14px 10px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-dark);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 6px;
-            box-shadow: 0 4px 10px rgba(138, 99, 210, 0.08);
         }
 
-        .open-me-card:hover {
-            border-color: var(--accent-purple);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(138, 99, 210, 0.18);
-        }
-
-        .open-me-card .icon {
+        .grid-btn span {
             font-size: 1.4rem;
         }
 
-        .open-me-card .label {
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: var(--accent-deep);
-            line-height: 1.2;
-        }
-
-        .audio-container {
-            width: 100%;
-            margin-top: 15px;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
+        .grid-btn:hover {
             background: #ffffff;
-            padding: 12px;
-            border-radius: 16px;
-            border: 1px solid var(--accent-soft);
-            animation: fadeInCard 0.4s ease forwards;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(157, 78, 221, 0.2);
+            border-color: var(--primary-light);
         }
 
-        .audio-container audio {
-            width: 100%;
-            height: 38px;
-            outline: none;
+        /* Navigation Controls unten */
+        .card-footer {
+            padding: 15px 24px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
         }
 
-        .audio-title {
+        .btn-nav {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            color: var(--text-dark);
+            padding: 10px 18px;
+            border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
-            color: var(--accent-purple);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .webp-sticker-container {
-            margin-top: 15px;
-            width: 100%;
-            max-width: 190px;
+        .btn-nav:hover:not(:disabled) {
+            background: #ffffff;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .btn-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #7b2cbf);
+            color: white;
+            border: none;
+            box-shadow: 0 8px 20px rgba(157, 78, 221, 0.35);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: linear-gradient(135deg, #7b2cbf, #5a189a);
+            box-shadow: 0 10px 25px rgba(157, 78, 221, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Modal Popup */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(16, 0, 43, 0.65);
+            backdrop-filter: blur(8px);
+            z-index: 100;
             display: flex;
             justify-content: center;
             align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
 
-        .webp-sticker-container img {
-            width: 100%;
-            height: auto;
-            max-height: 170px;
-            border-radius: 16px;
-            object-fit: contain;
-            filter: drop-shadow(0 6px 15px rgba(138, 99, 210, 0.3));
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
         }
 
-        @media (max-width: 480px) {
-            .app-container { padding: 25px 16px; }
-            h1 { font-size: 1.7rem; }
-            h2 { font-size: 1.35rem; }
-            .quiz-options { flex-direction: column; }
-            .cards-grid { grid-template-columns: repeat(2, 1fr); max-height: 340px; }
-            .flip-card { height: 135px; }
-            .final-personal-text { font-size: 1.3rem; padding: 14px 15px; }
-            .final-personal-text p { font-size: 1.3rem; }
-            .dua-intro-text { font-size: 1.4rem; }
-            .map-container { height: 250px; }
-            .dua-arabic { font-size: 1.35rem; }
-            .open-me-grid { grid-template-columns: 1fr; }
-            .top-controls { top: 10px; right: 10px; gap: 5px; }
-            .music-control, .open-me-shortcut { padding: 6px 12px; font-size: 0.78rem; }
+        .modal-content {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 28px;
+            padding: 28px 24px;
+            width: 85%;
+            max-width: 380px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid #ffffff;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .modal-body {
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .modal-close {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: #7b2cbf;
+        }
+
+        /* Responsive */
+        @media (max-height: 700px) {
+            .card-container { height: 92vh; }
+            .script-title { font-size: 2.3rem; }
+            .text-body { font-size: 0.88rem; line-height: 1.5; }
+            .photo-frame { width: 160px; height: 180px; padding-bottom: 25px; }
         }
     </style>
 </head>
 <body>
 
-    <canvas id="canvas-particles"></canvas>
+    <!-- Hintergrund Effekte -->
+    <div class="bg-element bg-1"></div>
+    <div class="bg-element bg-2"></div>
+    <div id="heart-container"></div>
 
-    <audio id="bg-music" loop preload="auto">
-        <source src="musik.mp3" type="audio/mpeg">
-        <source src="Musik.mp3" type="audio/mpeg">
-        <source src="musik.MP3" type="audio/mpeg">
-    </audio>
+    <!-- Karte Haupt-Container -->
+    <div class="card-container">
+        
+        <!-- Header: Dots & Counter -->
+        <div class="card-header">
+            <div class="dots-indicator" id="dotsContainer"></div>
+            <div class="slide-counter" id="slideCounter">1 / 7</div>
+        </div>
 
-    <div class="top-controls">
-        <button class="open-me-shortcut" onclick="jumpToOpenMe()">
-            ✉️ Öffne mich...
-        </button>
-        <button class="music-control" id="music-btn" onclick="toggleMusic()">
-            🎵 Musik abspielen
-        </button>
+        <!-- Inhalts-Slides -->
+        <div class="slides-wrapper">
+            
+            <!-- Slide 1: Welcome -->
+            <div class="slide active">
+                <div style="font-size: 3rem; margin-bottom: 10px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));">✨</div>
+                <h1 class="script-title">Für einen besonderen Menschen</h1>
+                <p class="text-body">
+                    Ein paar Worte, die mir von Herzen kommen. Nimm dir einen kurzen Moment Zeit, um durch diese Zeilen zu reisen...
+                </p>
+                <div class="highlight-box">
+                    <p style="font-size: 0.85rem; color: #5a189a; font-weight: 500;">
+                        Wische nach rechts oder klicke auf Weiter ➔
+                    </p>
+                </div>
+            </div>
+
+            <!-- Slide 2: Wertschätzung -->
+            <div class="slide">
+                <div style="font-size: 2.5rem; margin-bottom: 10px;">🌸</div>
+                <h2 class="script-title">Danke für dein Sein</h2>
+                <p class="text-body">
+                    Es gibt Menschen, deren Anwesenheit wie ein leises Lächeln für die Seele ist. Du gehörst ganz ohne Zweifel dazu.
+                </p>
+                <div class="highlight-box">
+                    <p class="text-body" style="margin: 0; font-style: italic;">
+                        Deine Art, deine Gedanken und dein Herz machen die Welt um dich herum einfach ein Stück schöner und wärmer.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Slide 3: Ein Du'a -->
+            <div class="slide">
+                <div style="font-size: 2.5rem; margin-bottom: 5px;">🤲🏼</div>
+                <h2 class="script-title">Ein Wunsch für dich</h2>
+                <div class="dua-box">
+                    "Möge Allah dir stets inneren Frieden schenken, deine Schritte leiten, deine Herzenswünsche erfüllen und dich mit Seinem Segen beschützen – auf all deinen Wegen."
+                </div>
+                <p class="text-body" style="font-size: 0.85rem; opacity: 0.8;">
+                    Manche Wünsche werden leise gesprochen, tragen aber die meiste Kraft in sich.
+                </p>
+            </div>
+
+            <!-- Slide 4: Wünsche für die Zukunft -->
+            <div class="slide">
+                <div style="font-size: 2.5rem; margin-bottom: 5px;">🕊️</div>
+                <h2 class="script-title">Für deinen Weg</h2>
+                <p class="text-body">Ich wünsche dir von allem nur das Beste:</p>
+                <div class="highlight-box" style="text-align: left;">
+                    <ul style="list-style: none; font-size: 0.88rem; line-height: 1.9; color: var(--text-dark);">
+                        <li>✨ <strong>Klarheit</strong> in schweren Momenten</li>
+                        <li>🌿 <strong>Gesundheit</strong> für Körper & Geist</li>
+                        <li>💫 <strong>Freude</strong> an den kleinen Dingen</li>
+                        <li>🤍 <strong>Menschen</strong>, die deinen Wert schätzen</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Slide 5: Ehrliche Erinnerung -->
+            <div class="slide">
+                <div style="font-size: 2.5rem; margin-bottom: 5px;">🕯️</div>
+                <h2 class="script-title">Vergiss niemals...</h2>
+                <p class="text-body">
+                    Auch an Tagen, an denen es leise um dich wird oder die Aufgaben schwer erscheinen:
+                </p>
+                <div class="highlight-box" style="background: rgba(255,255,255,0.75);">
+                    <p style="font-weight: 600; color: #3c096c; font-size: 0.95rem;">
+                        Du bist wertvoll, genau so wie du bist. Du musst niemandem etwas beweisen.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Slide 6: Foto / Erinnerung -->
+            <div class="slide">
+                <h2 class="script-title">Ein kleiner Moment</h2>
+                <div class="photo-frame" onclick="openModal('Ein schöner Augenblick', 'Manchmal sind es genau diese kleinen Erinnerungen, die uns ein Lächeln ins Gesicht zaubern. Danke für all die schönen Momente!')">
+                    <!-- Platzhalter-Bild: Durch dein eignes Bild ersetzen -->
+                    <img src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=600&q=80" alt="Erinnerung">
+                </div>
+                <p class="text-body" style="font-size: 0.82rem; opacity: 0.8;">
+                    (Klicke auf das Bild 👆🏼)
+                </p>
+            </div>
+
+            <!-- Slide 7: Interaktive Buttons -->
+            <div class="slide">
+                <div style="font-size: 2.2rem; margin-bottom: 5px;">💌</div>
+                <h2 class="script-title">Ein paar liebe Gedanken</h2>
+                <p class="text-body" style="margin-bottom: 10px;">
+                    Klicke auf eine Karte, wenn du es gerade brauchst:
+                </p>
+                
+                <div class="grid-buttons">
+                    <button class="grid-btn" onclick="openModal('Wenn du Motivation brauchst 🚀', 'Schritt für Schritt. Du musst nicht den ganzen Berg auf einmal versetzen. Vertrau auf deinen Weg und deine Stärke!')">
+                        <span>🌱</span> Motivation
+                    </button>
+                    <button class="grid-btn" onclick="openModal('Ein kleines Lächeln 😊', 'Danke, dass es dich gibt! Vergiss nicht, heute kurz innezuhalten und stolz auf dich zu sein.')">
+                        <span>✨</span> Lächeln
+                    </button>
+                    <button class="grid-btn" onclick="openModal('Ein leiser Gedanke 🤍', 'Egal wie stressig der Alltag wird: Dein innerer Frieden ist unbezahlbar. Pass gut auf dich auf.')">
+                        <span>🕊️</span> Ruhe
+                    </button>
+                    <button class="grid-btn" onclick="openModal('Ein Extra Du\'a 🤲🏼', 'Möge Allah dir Leichtigkeit schenken, wo Härte ist, und dir Türen öffnen, wo du keine vermutest.')">
+                        <span>🌙</span> Segen
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer Navigation -->
+        <div class="card-footer">
+            <button class="btn-nav" id="prevBtn" onclick="changeSlide(-1)">
+                ❮ Zurück
+            </button>
+            <button class="btn-nav btn-primary" id="nextBtn" onclick="changeSlide(1)">
+                Weiter ❯
+            </button>
+        </div>
+
     </div>
 
-    <div class="app-container">
-
-        <!-- SLIDE 1: SCANNER -->
-        <div class="slide active" id="slide-1">
-            <div class="pulsing-heart">💜</div>
-            <h2>Willkommen, Kausser</h2>
-            <p>Lege deinen Finger auf den Sensor, um dich zu authentifizieren...</p>
-
-            <div class="scanner-wrapper" id="scanner-btn">
-                <div class="scan-laser"></div>
-                <svg class="fingerprint-svg" viewBox="0 0 512 512">
-                    <path d="M256,48C141.1,48,48,141.1,48,256c0,22.7,3.3,44.7,9.4,65.5c3.2,10.8,14.6,17,25.4,13.8c10.8-3.2,17-14.6,13.8-25.4C92.2,293.7,89.3,275.2,89.3,256c0-91.9,74.8-166.7,166.7-166.7s166.7,74.8,166.7,166.7c0,19.2-2.9,37.7-8.3,53.9c-3.2,10.8,3,22.2,13.8,25.4c10.8,3.2,22.2-3,25.4-13.8c6.1-20.8,9.4-42.8,9.4-65.5C464,141.1,370.9,48,256,48z"/>
-                    <path d="M256,112c-79.4,0-144,64.6-144,144c0,27.8,7.9,53.8,21.5,76c6,9.8,18.8,12.8,28.6,6.8c9.8-6,12.8-18.8,6.8-28.6c-10.3-16.8-16.3-36.5-16.3-57.5c0-59.5,48.5-108,108-108s108,48.5,108,108c0,21-6,40.7-16.3,57.5c-6,9.8-3,22.6,6.8,28.6c9.8,6,22.6,3,28.6-6.8c13.6-22.2,21.5-48.2,21.5-76C400,176.6,335.4,112,256,112z"/>
-                    <path d="M256,176c-44.1,0-80,35.9-80,80c0,28.3,14.7,53.2,36.9,67.6c9.6,6.2,22.4,3.4,28.6-6.2c6.2-9.6,3.4-22.4-6.2-28.6c-13.4-8.7-22.3-23.7-22.3-40.8c0-26.5,21.5-48,48-48s48,21.5,48,48c0,17.1-8.9,32.1-22.3,40.8c-9.6,6.2-12.4,19-6.2,28.6c6.2,9.6,19,12.4,28.6,6.2c22.2-14.4,36.9-39.3,36.9-67.6C336,211.9,300.1,176,256,176z"/>
-                </svg>
-            </div>
-
-            <div class="scan-progress-bar">
-                <div class="scan-progress-fill" id="scan-bar"></div>
-            </div>
-            
-            <div class="scan-status" id="scan-status">Gedrückt halten zum Scannen...</div>
-            <button class="btn" id="slide1-next" style="display: none;" onclick="nextSlide(2)">Zugriff gewährt 💜</button>
+    <!-- Pop-Up Modal -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal-content">
+            <h3 class="modal-title" id="modalTitle">Titel</h3>
+            <p class="modal-body" id="modalBody">Nachricht...</p>
+            <button class="modal-close" onclick="closeModalDirect()">Schließen</button>
         </div>
-
-        <!-- SLIDE 2: DEUTSCHLANDKARTE & FRAGE -->
-        <div class="slide" id="slide-2">
-            <h2>Eine kurze Frage...</h2>
-            <p>Wie weit ist meine Liebe bereit für dich zu gehen?</p>
-
-            <div class="map-container">
-                <svg class="map-svg" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="mapGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#eadaff"/>
-                            <stop offset="100%" stop-color="#cbb5ff"/>
-                        </linearGradient>
-                        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                            <feMerge>
-                                <feMergeNode in="coloredBlur"/>
-                                <feMergeNode in="SourceGraphic"/>
-                            </feMerge>
-                        </filter>
-                    </defs>
-
-                    <path d="
-                        M 160,30 
-                        L 210,30 L 220,55 L 280,45 L 310,75 L 340,70 L 320,130 
-                        L 370,160 L 340,230 L 360,280 L 315,310 L 330,370 L 300,430 
-                        L 250,470 L 190,470 L 170,440 L 110,430 L 90,380 L 110,320 
-                        L 75,270 L 115,220 L 100,160 L 130,120 L 115,80 L 160,80 Z
-                    " fill="url(#mapGrad)" stroke="#8a63d2" stroke-width="3" stroke-linejoin="round" filter="drop-shadow(0px 6px 12px rgba(138,99,210,0.25))"/>
-
-                    <path d="M 115,80 Q 200,100 320,130 M 75,270 Q 200,280 360,280 M 110,430 Q 200,440 300,430" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.5"/>
-
-                    <path d="M 122,122 Q 135,270 200,385" fill="none" stroke="#e04870" stroke-width="3.5" stroke-dasharray="7,5" filter="url(#glow)"/>
-
-                    <g transform="translate(122, 122)">
-                        <circle cx="0" cy="0" r="12" fill="rgba(224,72,112,0.2)" />
-                        <circle cx="0" cy="0" r="6" fill="#e04870" stroke="#ffffff" stroke-width="2"/>
-                        <rect x="-65" y="-12" width="55" height="22" rx="6" fill="#2d2342" opacity="0.88"/>
-                        <text x="-37" y="3" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">Bunde</text>
-                    </g>
-                    
-                    <g transform="translate(200, 385)">
-                        <circle cx="0" cy="0" r="12" fill="rgba(224,72,112,0.2)" />
-                        <circle cx="0" cy="0" r="6" fill="#e04870" stroke="#ffffff" stroke-width="2"/>
-                        <rect x="10" y="-11" width="72" height="22" rx="6" fill="#2d2342" opacity="0.88"/>
-                        <text x="46" y="4" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">Heilbronn</text>
-                    </g>
-
-                    <g transform="translate(100, 240)">
-                        <rect x="0" y="0" width="95" height="30" rx="15" fill="#8a63d2" stroke="#ffffff" stroke-width="2" filter="drop-shadow(0px 4px 8px rgba(0,0,0,0.15))"/>
-                        <text x="47" y="19" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">✈️ 581 km</text>
-                    </g>
-                </svg>
-            </div>
-
-            <div class="quiz-options">
-                <button class="quiz-btn" onclick="checkAnswer('10 km')">10 km</button>
-                <button class="quiz-btn" onclick="checkAnswer('100 km')">100 km</button>
-                <button class="quiz-btn" onclick="checkAnswer('581 km')">581 km</button>
-            </div>
-
-            <div class="quiz-answer" id="quiz-answer-text"></div>
-            <button class="btn" id="slide2-next" style="display: none;" onclick="nextSlide(3)">Weiter ✨</button>
-        </div>
-
-        <!-- SLIDE 3: 10 GRÜNDE -->
-        <div class="slide" id="slide-3">
-            <h2>10 Dinge, die ich an dir liebe 💜</h2>
-            <p>Klicke auf die Kärtchen, um sie umzudrehen:</p>
-
-            <div class="cards-grid" id="cards-container"></div>
-
-            <div class="special-card-container" id="special-card-box">
-                <div class="special-card">
-                    ✨ Es gibt noch Tausende mehr Gründe und für jeden einzelnen liebe ich dich. ✨
-                </div>
-            </div>
-
-            <button class="btn" id="slide3-next" style="display: none;" onclick="nextSlide(4)">Weiter &rarr;</button>
-        </div>
-
-        <!-- SLIDE 4: TEMPERATUR -->
-        <div class="slide" id="slide-4">
-            <h2>Liebes-Temperatur</h2>
-            <p>Ein kleiner Check, um die Wärme in meinem Herzen für dich zu messen...</p>
-
-            <div class="interactive-section">
-                <div class="thermo-box">
-                    <span>🌡️ Temperatur:</span>
-                    <span class="thermo-value" id="thermo-val">36°C</span>
-                </div>
-
-                <div class="hold-btn" id="hold-button">
-                    <div class="hold-progress" id="hold-progress"></div>
-                    <span style="position: relative; z-index: 2;">🔒 Halte gedrückt für Geheimnachricht</span>
-                </div>
-                
-                <div class="secret-message-box" id="secret-message"></div>
-            </div>
-
-            <button class="btn" onclick="nextSlide(5)">Bereit fürs Barometer? 🔥</button>
-        </div>
-
-        <!-- SLIDE 5: BAROMETER -->
-        <div class="slide" id="slide-5">
-            <h2>Lass uns messen, wie groß meine Liebe für dich ist</h2>
-            <p>Starte den Test...</p>
-
-            <div class="barometer-container">
-                <div class="barometer-outer">
-                    <div class="barometer-inner" id="barometer-bar"></div>
-                </div>
-                <div class="barometer-display" id="barometer-text">0 %</div>
-            </div>
-
-            <div class="error-message" id="error-message"></div>
-
-            <button class="btn" id="start-barometer-btn" onclick="runBarometer()">Messung Starten 🚀</button>
-            <button class="btn" id="slide5-next" style="display: none;" onclick="nextSlide(6)">Zum Ergebnis 💜</button>
-        </div>
-
-        <!-- SLIDE 6: ERGEBNIS, DUA & SPRACHNACHRICHTEN -->
-        <div class="slide" id="slide-6">
-            <div class="pulsing-heart">💜</div>
-            
-            <div class="photo-frame">
-                <img id="user-photo" src="foto.jpg" alt="Unser Foto" onerror="tryNextImage(this)">
-            </div>
-
-            <div class="typing-text">Ergebnis: Nicht messbar. 💜</div>
-
-            <!-- PERSÖNLICHER WUNDERSCHÖNER TEXT -->
-            <div class="final-personal-text">
-                <p><strong>Liebe Kausser,</strong></p>
-                <p>wir kennen uns nun schon über 2 Jahre und jeden Tag wächst meine Liebe und Sehnsucht zu dir ein Stückchen mehr. Ich kann es kaum abwarten, dich inshallah in meinen Armen zu halten und dir einen Kuss auf die Stirn zu geben. Ich liebe dich von ganzen Herzen und möchte nicht, dass du von meiner Seite weichst. Lass uns beide noch eine kurze Zeit geduldig sein. Inshallah schaffen wir die nächsten Schritte schon bald.</p>
-                <p>Möge Allah dir Gesundheit schenken, deinen Glauben stärken und dich zu den Rechtschaffenen zählen. Möge er dich weitere Geburtstage erreichen lassen und dich erst zu ihm holen, wenn er zufrieden mit dir ist. Möge er dich und deine Familie rechtleiten. Möge er dich alles erreichen lassen, was du dir vornimmst. Möge er es dir möglich machen, dass du eine Schokotorte verdrückst, ohne dass dein Darm sich direkt rächen will. Möge er dir Zufriedenheit beim Tragen des Hijabs geben und dich dafür belohnen. Und möge er unsere Wege nicht trennen, sondern auf einem Guten und Rechtschaffenen Weg gemeinsam gerade aus halten, uns vereinen, bis wir diese Erde verlassen und uns in Jannatul Firdaus eintreten lassen.</p>
-                <p style="text-align: center; color: var(--accent-deep); font-weight: bold; margin-top: 10px;">Allahuma Amin 🤲❤️</p>
-            </div>
-
-            <!-- LIEBESERKLÄRUNG TEXT VOR DUA -->
-            <div class="dua-intro-text">
-                Ich liebe dich von ganzem Herzen, Kauko meine große Liebe.
-            </div>
-
-            <!-- FESTES DUA SCHILD -->
-            <div class="dua-box">
-                <div class="dua-header">Bittgebet für dich</div>
-                <div class="dua-arabic">
-                    اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالآخِرَةِ
-                </div>
-                <div class="dua-transliteration">
-                    "Allahumma inni as'alukal-'afwa wal-'afiyah fid-dunya wal-akhirah"
-                </div>
-                <div class="dua-translation">
-                    "O Allah, ich bitte Dich um Vergebung und Wohlergehen im Diesseits und im Jenseits."
-                </div>
-            </div>
-
-            <!-- ÖFFNE MICH WENN SEKTION -->
-            <div class="open-me-section" id="open-me-target">
-                <div class="open-me-title">Öffne mich, wenn... 💌</div>
-                <div class="open-me-subtitle">Klicke auf eine Kategorie, um meine Stimme zu hören:</div>
-
-                <div class="open-me-grid">
-                    <div class="open-me-card" onclick="playVoiceNote('Vermisst.m4a', 'Wenn du mich vermisst 💜')">
-                        <span class="icon">🥺</span>
-                        <span class="label">...du mich vermisst</span>
-                    </div>
-                    <div class="open-me-card" onclick="playVoiceNote('Trost.m4a', 'Wenn du traurig bist 🌧️')">
-                        <span class="icon">💔</span>
-                        <span class="label">...du traurig bist</span>
-                    </div>
-                    <div class="open-me-card" onclick="playVoiceNote('Motivation.m4a', 'Wenn du Motivation brauchst 🚀')">
-                        <span class="icon">✨</span>
-                        <span class="label">...du Motivation brauchst</span>
-                    </div>
-                    <div class="open-me-card" onclick="playVoiceNote('Streit.m4a', 'Wenn wir uns gestritten haben 🕊️')">
-                        <span class="icon">🤍</span>
-                        <span class="label">...wir uns gestritten haben</span>
-                    </div>
-                </div>
-
-                <div class="audio-container" id="audio-container">
-                    <div class="audio-title" id="audio-title-text">Sprachnachricht lädt...</div>
-                    <audio id="voice-player" controls preload="auto"></audio>
-                </div>
-            </div>
-
-            <!-- STICKER AM ENDE -->
-            <div class="webp-sticker-container">
-                <img id="sticker-img" src="kaussernathansticker.webp" alt="Sticker" onerror="tryNextSticker(this)">
-            </div>
-        </div>
-
     </div>
 
     <script>
-        // BILD FALLBACK FÜR FOTO
-        const imageFallbacks = ['foto.jpg', 'Foto.jpg', 'foto.jpeg', 'Foto.jpeg', 'foto.png', 'Foto.png'];
-        let imgIdx = 0;
-        function tryNextImage(imgElement) {
-            imgIdx++;
-            if (imgIdx < imageFallbacks.length) {
-                imgElement.src = imageFallbacks[imgIdx];
-            } else {
-                imgElement.src = 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=500&auto=format&fit=crop';
-            }
-        }
+        // Slides Setup
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dotsContainer = document.getElementById('dotsContainer');
+        const slideCounter = document.getElementById('slideCounter');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const totalSlides = slides.length;
 
-        // STICKER FALLBACK
-        const stickerFallbacks = [
-            'kaussernathansticker.webp', 
-            'Kaussernathansticker.webp', 
-            'kaussernathansticker.WEBP',
-            'kaussernathansticker.png'
-        ];
-        let stickerIdx = 0;
-        function tryNextSticker(imgElement) {
-            stickerIdx++;
-            if (stickerIdx < stickerFallbacks.length) {
-                imgElement.src = stickerFallbacks[stickerIdx];
-            }
-        }
-
-        // SLIDES NAVIGATION
-        let currentSlide = 1;
-        function nextSlide(slideNumber) {
-            const currentEl = document.getElementById(`slide-${currentSlide}`);
-            const nextEl = document.getElementById(`slide-${slideNumber}`);
-
-            if (currentEl) currentEl.classList.remove('active');
-
-            setTimeout(() => {
-                currentSlide = slideNumber;
-                if (nextEl) nextEl.classList.add('active');
-                if (slideNumber === 4) startThermoAnim();
-            }, 300);
-        }
-
-        // MUSIK SYSTEM
-        const audio = document.getElementById('bg-music');
-        const musicBtn = document.getElementById('music-btn');
-        let isPlaying = false;
-
-        function startMusicAutomatically() {
-            if (!isPlaying) {
-                audio.play().then(() => {
-                    isPlaying = true;
-                    musicBtn.innerHTML = '⏸️ Musik aus';
-                }).catch(err => {
-                    console.log("Autoplay blockiert:", err);
-                });
-            }
-        }
-
-        function toggleMusic() {
-            if (isPlaying) {
-                audio.pause();
-                musicBtn.innerHTML = '🎵 Musik an';
-                isPlaying = false;
-            } else {
-                audio.play().then(() => {
-                    musicBtn.innerHTML = '⏸️ Musik aus';
-                    isPlaying = true;
-                }).catch(error => {
-                    alert("Musik konnte nicht abgespielt werden. Stelle sicher, dass 'musik.mp3' existiert.");
-                });
-            }
-        }
-
-        // SPRACHNACHRICHTEN PLAYBACK
-        const voicePlayer = document.getElementById('voice-player');
-        const audioContainer = document.getElementById('audio-container');
-        const audioTitleText = document.getElementById('audio-title-text');
-
-        function playVoiceNote(file, titleText) {
-            // Pausiere Hintergrundmusik damit man Sprachnachricht gut hört
-            if (isPlaying) {
-                audio.pause();
-                isPlaying = false;
-                musicBtn.innerHTML = '🎵 Musik an';
-            }
-
-            audioContainer.style.display = 'flex';
-            audioTitleText.innerText = titleText;
-            voicePlayer.src = file;
-            voicePlayer.play().catch(e => {
-                console.log("Audio konnte nicht gestartet werden:", e);
-            });
-        }
-
-        // SCHNELLZUGRIFFS-BUTTON
-        function jumpToOpenMe() {
-            if (currentSlide !== 6) {
-                const currentEl = document.getElementById(`slide-${currentSlide}`);
-                if (currentEl) currentEl.classList.remove('active');
-                currentSlide = 6;
-                document.getElementById('slide-6').classList.add('active');
-            }
-
-            setTimeout(() => {
-                const target = document.getElementById('open-me-target');
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            }, 300);
-        }
-
-        // SCANNER
-        const scannerBtn = document.getElementById('scanner-btn');
-        const scanBar = document.getElementById('scan-bar');
-        const scanStatus = document.getElementById('scan-status');
-        const slide1Next = document.getElementById('slide1-next');
-        
-        let scanTimer = null;
-        let scanProgress = 0;
-        let isScanned = false;
-
-        function startScan(e) {
-            if (isScanned) return;
-            if (e.type === 'touchstart') e.preventDefault();
-            
-            startMusicAutomatically();
-
-            scannerBtn.classList.add('scanning');
-            scanStatus.innerText = "Finger wird gescannt...";
-
-            scanTimer = setInterval(() => {
-                scanProgress += 5;
-                scanBar.style.width = scanProgress + '%';
-
-                if (scanProgress >= 100) {
-                    clearInterval(scanTimer);
-                    isScanned = true;
-                    scannerBtn.classList.remove('scanning');
-                    scanStatus.innerText = "Kausser erkannt! 💜";
-                    scanStatus.style.color = "#8a63d2";
-                    slide1Next.style.display = "inline-block";
-                }
-            }, 60);
-        }
-
-        function stopScan() {
-            if (isScanned) return;
-            clearInterval(scanTimer);
-            scannerBtn.classList.remove('scanning');
-            scanProgress = 0;
-            scanBar.style.width = '0%';
-            scanStatus.innerText = "Gedrückt halten zum Scannen...";
-        }
-
-        scannerBtn.addEventListener('mousedown', startScan);
-        scannerBtn.addEventListener('mouseup', stopScan);
-        scannerBtn.addEventListener('mouseleave', stopScan);
-        scannerBtn.addEventListener('touchstart', startScan);
-        scannerBtn.addEventListener('touchend', stopScan);
-
-        // QUIZ
-        function checkAnswer(choice) {
-            const answerBox = document.getElementById('quiz-answer-text');
-            const nextBtn = document.getElementById('slide2-next');
-
-            answerBox.style.opacity = '0';
-            setTimeout(() => {
-                answerBox.innerText = "Die richtige Antwort war immer: egal wie weit.";
-                answerBox.style.opacity = '1';
-                nextBtn.style.display = "inline-block";
-            }, 200);
-        }
-
-        // 10 GRÜNDE
-        const reasons = [
-            "Du bringst Farbe in meinen grauen Alltag.",
-            "Deine Liebe reicht aus, um die gesamte Welt damit zu versorgen.",
-            "Deine direkte und ehrliche Art, du trägst dein Herz auf der Zunge.",
-            "Deine Fürsorglichkeit.",
-            "Du bist der witzigste Mensch den ich kenne mit dem besten Humor.",
-            "Du bist die attraktivste Frau auf dieser Erde, ich bin verrückt nach dir.",
-            "Du strebst nach einem rechtschaffenen, gottgefälligen Leben.",
-            "Dein Grinsen wenn man dir schmeichelt.",
-            "Wenn du einfach du bist und singst, aufräumst, Kreuzworträtsel machst und ich dabei bin.",
-            "Deine Gabe Stille angenehm zu machen und gleichzeitig Langeweile zu brechen und einfach zu reden."
-        ];
-
-        const cardsContainer = document.getElementById('cards-container');
-        const flippedCards = new Set();
-
-        reasons.forEach((text, index) => {
-            const card = document.createElement('div');
-            card.className = 'flip-card';
-            
-            let fontSize = '0.82rem';
-            if (text.length > 70) fontSize = '0.68rem';
-            else if (text.length > 45) fontSize = '0.75rem';
-
-            card.innerHTML = `
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        #${index + 1} 💜
-                    </div>
-                    <div class="flip-card-back" style="font-size: ${fontSize};">
-                        ${text}
-                    </div>
-                </div>
-            `;
-
-            card.addEventListener('click', () => {
-                card.classList.toggle('flipped');
-                if(card.classList.contains('flipped')) {
-                    flippedCards.add(index);
-                }
-
-                if (flippedCards.size === reasons.length) {
-                    document.getElementById('special-card-box').style.display = 'block';
-                    document.getElementById('slide3-next').style.display = 'inline-block';
-                }
-            });
-
-            cardsContainer.appendChild(card);
+        // Generiere Navigation Dots
+        slides.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (idx === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(idx));
+            dotsContainer.appendChild(dot);
         });
 
-        // THERMOMETER
-        function startThermoAnim() {
-            const thermoVal = document.getElementById('thermo-val');
-            const temps = ['36°C', '50°C', '100°C', '999°C 🔥'];
-            let idx = 0;
+        const dots = document.querySelectorAll('.dot');
 
-            const interval = setInterval(() => {
-                idx++;
-                if (idx < temps.length) {
-                    thermoVal.innerText = temps[idx];
-                } else {
-                    clearInterval(interval);
-                }
-            }, 800);
-        }
-
-        // GEHEIMNACHRICHT BUTTON
-        const holdBtn = document.getElementById('hold-button');
-        const holdProgress = document.getElementById('hold-progress');
-        const secretMsg = document.getElementById('secret-message');
-        let progressInterval = null;
-        let holdTime = 0;
-
-        function startHold(e) {
-            if (e.type === 'touchstart') e.preventDefault();
-            holdTime = 0;
-            holdProgress.style.width = '0%';
-            progressInterval = setInterval(() => {
-                holdTime += 100;
-                holdProgress.style.width = (holdTime / 2500) * 100 + '%';
-                if (holdTime >= 2500) {
-                    clearInterval(progressInterval);
-                    secretMsg.innerText = "✨ Du bist das Schönste, was mir je passiert ist!";
-                }
-            }, 100);
-        }
-
-        function endHold() {
-            clearInterval(progressInterval);
-            if (holdTime < 2500) holdProgress.style.width = '0%';
-        }
-
-        holdBtn.addEventListener('mousedown', startHold);
-        holdBtn.addEventListener('mouseup', endHold);
-        holdBtn.addEventListener('mouseleave', endHold);
-        holdBtn.addEventListener('touchstart', startHold);
-        holdBtn.addEventListener('touchend', endHold);
-
-        // BAROMETER
-        function runBarometer() {
-            const bar = document.getElementById('barometer-bar');
-            const text = document.getElementById('barometer-text');
-            const error = document.getElementById('error-message');
-            const startBtn = document.getElementById('start-barometer-btn');
-            const nextBtn = document.getElementById('slide5-next');
-
-            startBtn.style.display = 'none';
-
-            const steps = [
-                { pct: '10 %', width: '10%' },
-                { pct: '50 %', width: '50%' },
-                { pct: '90 %', width: '90%' },
-                { pct: '100 %', width: '100%' },
-                { pct: '1000 %', width: '100%' },
-                { pct: '10000 %', width: '100%' },
-                { pct: '999999 %', width: '100%' }
-            ];
-
-            let stepIdx = 0;
-            const interval = setInterval(() => {
-                if (stepIdx < steps.length) {
-                    text.innerText = steps[stepIdx].pct;
-                    bar.style.width = steps[stepIdx].width;
-                    stepIdx++;
-                } else {
-                    clearInterval(interval);
-                    text.innerText = "⚠️ ERROR";
-                    text.style.color = "#e04870";
-                    error.innerHTML = "Messfehler erkannt.<br>Die Skala reicht nicht aus.";
-                    nextBtn.style.display = 'inline-block';
-                }
-            }, 600);
-        }
-
-        // PARTICLES
-        const canvas = document.getElementById('canvas-particles');
-        const ctx = canvas.getContext('2d');
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        const heartIcons = ['💜', '💜', '💜', '🤍', '✨'];
-        const particles = [];
-
-        class HeartParticle {
-            constructor() { this.reset(); }
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = canvas.height + 20;
-                this.size = Math.random() * 12 + 8;
-                this.speedY = Math.random() * 1.5 + 0.5;
-                this.opacity = Math.random() * 0.4 + 0.2;
-                this.swing = Math.random() * 0.05;
-                this.angle = Math.random() * Math.PI * 2;
-                this.icon = heartIcons[Math.floor(Math.random() * heartIcons.length)];
-            }
-            update() {
-                this.y -= this.speedY;
-                this.angle += this.swing;
-                this.x += Math.sin(this.angle) * 0.5;
-                if (this.y < -20) this.reset();
-            }
-            draw() {
-                ctx.save();
-                ctx.globalAlpha = this.opacity;
-                ctx.font = `${this.size}px serif`;
-                ctx.fillText(this.icon, this.x, this.y);
-                ctx.restore();
-            }
-        }
-
-        for (let i = 0; i < 24; i++) {
-            particles.push(new HeartParticle());
-        }
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
+        function updateUI() {
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === currentSlide);
             });
-            requestAnimationFrame(animateParticles);
+
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === currentSlide);
+            });
+
+            slideCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+
+            prevBtn.disabled = currentSlide === 0;
+            
+            if (currentSlide === totalSlides - 1) {
+                nextBtn.textContent = 'Neu starten 🔄';
+            } else {
+                nextBtn.textContent = 'Weiter ❯';
+            }
         }
-        animateParticles();
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide >= totalSlides) {
+                currentSlide = 0; // Loop zurück zum Start
+            }
+            if (currentSlide < 0) {
+                currentSlide = 0;
+            }
+            updateUI();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateUI();
+        }
+
+        // Swipe Gesten (Mobile)
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const cardContainer = document.querySelector('.card-container');
+        cardContainer.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        cardContainer.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, {passive: true});
+
+        function handleSwipe() {
+            const swipeThreshold = 40;
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // Swipe links -> Weiter
+                if (currentSlide < totalSlides - 1) changeSlide(1);
+            }
+            if (touchEndX > touchStartX + swipeThreshold) {
+                // Swipe rechts -> Zurück
+                if (currentSlide > 0) changeSlide(-1);
+            }
+        }
+
+        // Modal Funktionen
+        function openModal(title, text) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalBody').textContent = text;
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+
+        function closeModal(e) {
+            if (e.target === document.getElementById('modalOverlay')) {
+                closeModalDirect();
+            }
+        }
+
+        function closeModalDirect() {
+            document.getElementById('modalOverlay').classList.remove('active');
+        }
+
+        // Hintergrund Partikel (Herzen & Glitzer)
+        function createHeart() {
+            const container = document.getElementById('heart-container');
+            const particle = document.createElement('div');
+            particle.classList.add('heart-particle');
+            
+            const symbols = ['💜', '🌸', '✨', '🤍', '💫'];
+            particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+            
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+            particle.style.fontSize = (Math.random() * 0.8 + 0.8) + 'rem';
+            
+            container.appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 10000);
+        }
+
+        setInterval(createHeart, 900);
+        updateUI();
     </script>
 </body>
 </html>
