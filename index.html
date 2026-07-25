@@ -728,8 +728,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         .webp-sticker-container img {
@@ -937,268 +935,430 @@
             <div class="final-personal-text">
                 <p><strong>Liebe Kausser,</strong></p>
                 <p>wir kennen uns nun schon über 2 Jahre und jeden Tag wächst meine Liebe und Sehnsucht zu dir ein Stückchen mehr. Ich kann es kaum abwarten, dich inshallah in meinen Armen zu halten und dir einen Kuss auf die Stirn zu geben. Ich liebe dich von ganzen Herzen und möchte nicht, dass du von meiner Seite weichst. Lass uns beide noch eine kurze Zeit geduldig sein. Inshallah schaffen wir die nächsten Schritte schon bald.</p>
-                <p>Möge Allah dir Gesundheit schenken, deinen Glauben stärken und dich zu den Rechtschaffenen zählen. Möge er dich weitere Geburtstage erreichen lassen und uns in diesem Leben sowie im Jenseits vereinen.</p>
+                <p>Möge Allah dir Gesundheit schenken, deinen Glauben stärken und dich zu den Rechtschaffenen zählen. Möge er dich weitere Geburtstage erreichen lassen und dich erst zu ihm holen, wenn er zufrieden mit dir ist. Möge er dich und deine Familie rechtleiten. Möge er dich alles erreichen lassen, was du dir vornimmst. Möge er es dir möglich machen, dass du eine Schokotorte verdrückst, ohne dass dein Darm sich direkt rächen will. Möge er dir Zufriedenheit beim Tragen des Hijabs geben und dich dafür belohnen. Und möge er unsere Wege nicht trennen, sondern auf einem Guten und Rechtschaffenen Weg gemeinsam gerade aus halten, uns vereinen, bis wir diese Erde verlassen und uns in Jannatul Firdaus eintreten lassen.</p>
+                <p style="text-align: center; color: var(--accent-deep); font-weight: bold; margin-top: 10px;">Allahuma Amin 🤲❤️</p>
             </div>
 
-            <div class="dua-intro-text">Ein kleines Dua für uns:</div>
-            
+            <!-- LIEBESERKLÄRUNG TEXT VOR DUA -->
+            <div class="dua-intro-text">
+                Ich liebe dich von ganzem Herzen, Kauko meine große Liebe.
+            </div>
+
+            <!-- FESTES DUA SCHILD -->
             <div class="dua-box">
-                <div class="dua-header">Dua für Liebe & Segen</div>
-                <div class="dua-arabic">رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا</div>
-                <div class="dua-transliteration">"Rabbana hab lana min azwajina wa dhurriyatina qurrata a'yunin waj'alna lil-muttaqina imama."</div>
-                <div class="dua-translation">"Unser Herr, schenke uns an unseren Ehepartnern und unserer Nachkommenschaft Freude und mache uns zu Vorbildern für die Gottesfürchtigen."</div>
+                <div class="dua-header">Bittgebet für dich</div>
+                <div class="dua-arabic">
+                    اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالآخِرَةِ
+                </div>
+                <div class="dua-transliteration">
+                    "Allahumma inni as'alukal-'afwa wal-'afiyah fid-dunya wal-akhirah"
+                </div>
+                <div class="dua-translation">
+                    "O Allah, ich bitte Dich um Vergebung und Wohlergehen im Diesseits und im Jenseits."
+                </div>
             </div>
 
-            <div class="open-me-section" id="open-me">
-                <div class="open-me-title">Öffne mich, wenn...</div>
-                <div class="open-me-subtitle">Tippe auf eine Karte, um eine Nachricht anzuhören 🎧</div>
-                
+            <!-- ÖFFNE MICH WENN SEKTION -->
+            <div class="open-me-section" id="open-me-target">
+                <div class="open-me-title">Öffne mich, wenn... 💌</div>
+                <div class="open-me-subtitle">Klicke auf eine Kategorie, um meine Stimme zu hören:</div>
+
                 <div class="open-me-grid">
-                    <div class="open-me-card" onclick="playSecretAudio('audio1')">
-                        <span class="icon">😢</span>
-                        <span class="label">...du traurig bist</span>
-                    </div>
-                    <div class="open-me-card" onclick="playSecretAudio('audio2')">
-                        <span class="icon">😊</span>
-                        <span class="label">...du glücklich bist</span>
-                    </div>
-                    <div class="open-me-card" onclick="playSecretAudio('audio3')">
-                        <span class="icon">😴</span>
-                        <span class="label">...du nicht schlafen kannst</span>
-                    </div>
-                    <div class="open-me-card" onclick="playSecretAudio('audio4')">
-                        <span class="icon">❤️</span>
+                    <div class="open-me-card" onclick="playVoiceNote('Vermisst.m4a', 'Wenn du mich vermisst 💜')">
+                        <span class="icon">🥺</span>
                         <span class="label">...du mich vermisst</span>
                     </div>
+                    <div class="open-me-card" onclick="playVoiceNote('Trost.m4a', 'Wenn du traurig bist 🌧️')">
+                        <span class="icon">💔</span>
+                        <span class="label">...du traurig bist</span>
+                    </div>
+                    <div class="open-me-card" onclick="playVoiceNote('Motivation.m4a', 'Wenn du Motivation brauchst 🚀')">
+                        <span class="icon">✨</span>
+                        <span class="label">...du Motivation brauchst</span>
+                    </div>
+                    <div class="open-me-card" onclick="playVoiceNote('Streit.m4a', 'Wenn wir uns gestritten haben 🕊️')">
+                        <span class="icon">🤍</span>
+                        <span class="label">...wir uns gestritten haben</span>
+                    </div>
                 </div>
 
-                <div class="audio-container" id="audio-player-box">
-                    <div class="audio-title" id="audio-title-text">Spielt ab...</div>
-                    <audio id="current-audio" controls>
-                        <source src="" type="audio/mpeg">
-                    </audio>
-                </div>
-
-                <div class="webp-sticker-container">
-                    <img src="sticker.webp" alt="Sticker" onerror="this.style.display='none'">
+                <div class="audio-container" id="audio-container">
+                    <div class="audio-title" id="audio-title-text">Sprachnachricht lädt...</div>
+                    <audio id="voice-player" controls preload="auto"></audio>
                 </div>
             </div>
 
+            <!-- STICKER AM ENDE -->
+            <div class="webp-sticker-container">
+                <img id="sticker-img" src="kaussernathansticker.webp" alt="Sticker" onerror="tryNextSticker(this)">
+            </div>
         </div>
+
     </div>
 
     <script>
-        // --- 1. ALLGEMEINE FUNKTIONEN & MUSIK ---
-        let musicPlaying = false;
-        const bgMusic = document.getElementById('bg-music');
-        const musicBtn = document.getElementById('music-btn');
-
-        function toggleMusic() {
-            if (musicPlaying) {
-                bgMusic.pause();
-                musicBtn.innerHTML = "🎵 Musik abspielen";
+        // BILD FALLBACK FÜR FOTO
+        const imageFallbacks = ['foto.jpg', 'Foto.jpg', 'foto.jpeg', 'Foto.jpeg', 'foto.png', 'Foto.png'];
+        let imgIdx = 0;
+        function tryNextImage(imgElement) {
+            imgIdx++;
+            if (imgIdx < imageFallbacks.length) {
+                imgElement.src = imageFallbacks[imgIdx];
             } else {
-                bgMusic.play().catch(e => console.log("Audio play prevented"));
-                musicBtn.innerHTML = "⏸️ Musik pausieren";
+                imgElement.src = 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=500&auto=format&fit=crop';
             }
-            musicPlaying = !musicPlaying;
         }
 
-        function nextSlide(slideIndex) {
-            document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
-            document.getElementById('slide-' + slideIndex).classList.add('active');
-            window.scrollTo(0, 0);
+        // STICKER FALLBACK
+        const stickerFallbacks = [
+            'kaussernathansticker.webp', 
+            'Kaussernathansticker.webp', 
+            'kaussernathansticker.WEBP',
+            'kaussernathansticker.png'
+        ];
+        let stickerIdx = 0;
+        function tryNextSticker(imgElement) {
+            stickerIdx++;
+            if (stickerIdx < stickerFallbacks.length) {
+                imgElement.src = stickerFallbacks[stickerIdx];
+            }
         }
 
-        function jumpToOpenMe() {
-            nextSlide(6);
+        // SLIDES NAVIGATION
+        let currentSlide = 1;
+        function nextSlide(slideNumber) {
+            const currentEl = document.getElementById(`slide-${currentSlide}`);
+            const nextEl = document.getElementById(`slide-${slideNumber}`);
+
+            if (currentEl) currentEl.classList.remove('active');
+
             setTimeout(() => {
-                document.getElementById('open-me').scrollIntoView({ behavior: 'smooth' });
+                currentSlide = slideNumber;
+                if (nextEl) nextEl.classList.add('active');
+                if (slideNumber === 4) startThermoAnim();
             }, 300);
         }
 
-        // --- 2. FINGERPRINT SCANNER ---
+        // MUSIK SYSTEM
+        const audio = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('music-btn');
+        let isPlaying = false;
+
+        function startMusicAutomatically() {
+            if (!isPlaying) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    musicBtn.innerHTML = '⏸️ Musik aus';
+                }).catch(err => {
+                    console.log("Autoplay blockiert:", err);
+                });
+            }
+        }
+
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                musicBtn.innerHTML = '🎵 Musik an';
+                isPlaying = false;
+            } else {
+                audio.play().then(() => {
+                    musicBtn.innerHTML = '⏸️ Musik aus';
+                    isPlaying = true;
+                }).catch(error => {
+                    alert("Musik konnte nicht abgespielt werden. Stelle sicher, dass 'musik.mp3' existiert.");
+                });
+            }
+        }
+
+        // SPRACHNACHRICHTEN PLAYBACK
+        const voicePlayer = document.getElementById('voice-player');
+        const audioContainer = document.getElementById('audio-container');
+        const audioTitleText = document.getElementById('audio-title-text');
+
+        function playVoiceNote(file, titleText) {
+            // Pausiere Hintergrundmusik damit man Sprachnachricht gut hört
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                musicBtn.innerHTML = '🎵 Musik an';
+            }
+
+            audioContainer.style.display = 'flex';
+            audioTitleText.innerText = titleText;
+            voicePlayer.src = file;
+            voicePlayer.play().catch(e => {
+                console.log("Audio konnte nicht gestartet werden:", e);
+            });
+        }
+
+        // SCHNELLZUGRIFFS-BUTTON
+        function jumpToOpenMe() {
+            if (currentSlide !== 6) {
+                const currentEl = document.getElementById(`slide-${currentSlide}`);
+                if (currentEl) currentEl.classList.remove('active');
+                currentSlide = 6;
+                document.getElementById('slide-6').classList.add('active');
+            }
+
+            setTimeout(() => {
+                const target = document.getElementById('open-me-target');
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 300);
+        }
+
+        // SCANNER
         const scannerBtn = document.getElementById('scanner-btn');
         const scanBar = document.getElementById('scan-bar');
         const scanStatus = document.getElementById('scan-status');
-        let scanInterval;
+        const slide1Next = document.getElementById('slide1-next');
+        
+        let scanTimer = null;
         let scanProgress = 0;
+        let isScanned = false;
 
-        const startScan = (e) => {
-            e.preventDefault();
-            scannerBtn.classList.add('scanning');
-            scanStatus.innerText = "Authentifizierung läuft...";
+        function startScan(e) {
+            if (isScanned) return;
+            if (e.type === 'touchstart') e.preventDefault();
             
-            scanInterval = setInterval(() => {
-                scanProgress += 2;
-                scanBar.style.width = scanProgress + "%";
+            startMusicAutomatically();
+
+            scannerBtn.classList.add('scanning');
+            scanStatus.innerText = "Finger wird gescannt...";
+
+            scanTimer = setInterval(() => {
+                scanProgress += 5;
+                scanBar.style.width = scanProgress + '%';
+
                 if (scanProgress >= 100) {
-                    clearInterval(scanInterval);
-                    scanStatus.innerText = "Erfolgreich! Kausser erkannt.";
-                    scanStatus.style.color = "var(--accent-purple)";
+                    clearInterval(scanTimer);
+                    isScanned = true;
                     scannerBtn.classList.remove('scanning');
-                    document.getElementById('slide1-next').style.display = "block";
+                    scanStatus.innerText = "Kausser erkannt! 💜";
+                    scanStatus.style.color = "#8a63d2";
+                    slide1Next.style.display = "inline-block";
                 }
-            }, 30);
-        };
-
-        const stopScan = (e) => {
-            e.preventDefault();
-            clearInterval(scanInterval);
-            scannerBtn.classList.remove('scanning');
-            if (scanProgress < 100) {
-                scanProgress = 0;
-                scanBar.style.width = "0%";
-                scanStatus.innerText = "Gedrückt halten zum Scannen...";
-            }
-        };
-
-        scannerBtn.addEventListener('mousedown', startScan);
-        scannerBtn.addEventListener('touchstart', startScan);
-        scannerBtn.addEventListener('mouseup', stopScan);
-        scannerBtn.addEventListener('mouseleave', stopScan);
-        scannerBtn.addEventListener('touchend', stopScan);
-
-        // --- 3. QUIZ FUNKTION ---
-        function checkAnswer(answer) {
-            const answerText = document.getElementById('quiz-answer-text');
-            if (answer === '581 km') {
-                answerText.innerText = "Richtig! Aber für mich fühlt es sich an wie nichts, weil du immer in meinem Herzen bist. 💜";
-                answerText.style.opacity = 1;
-                document.getElementById('slide2-next').style.display = "block";
-            } else {
-                answerText.innerText = "Fast... versuch's nochmal! 😉";
-                answerText.style.opacity = 1;
-            }
+            }, 60);
         }
 
-        // --- 4. 10 GRÜNDE KARTEN ---
-        const gruende = [
-            "Dein Lächeln", "Deine Augen", "Deine liebevolle Art", "Deine Geduld", 
-            "Dein Humor", "Deine Fürsorge", "Deine Wärme", "Dein Charakter", 
-            "Deine Stimme", "Einfach alles an dir"
-        ];
-        
-        const cardsContainer = document.getElementById('cards-container');
-        let flippedCount = 0;
+        function stopScan() {
+            if (isScanned) return;
+            clearInterval(scanTimer);
+            scannerBtn.classList.remove('scanning');
+            scanProgress = 0;
+            scanBar.style.width = '0%';
+            scanStatus.innerText = "Gedrückt halten zum Scannen...";
+        }
 
-        gruende.forEach((grund, index) => {
+        scannerBtn.addEventListener('mousedown', startScan);
+        scannerBtn.addEventListener('mouseup', stopScan);
+        scannerBtn.addEventListener('mouseleave', stopScan);
+        scannerBtn.addEventListener('touchstart', startScan);
+        scannerBtn.addEventListener('touchend', stopScan);
+
+        // QUIZ
+        function checkAnswer(choice) {
+            const answerBox = document.getElementById('quiz-answer-text');
+            const nextBtn = document.getElementById('slide2-next');
+
+            answerBox.style.opacity = '0';
+            setTimeout(() => {
+                answerBox.innerText = "Die richtige Antwort war immer: egal wie weit.";
+                answerBox.style.opacity = '1';
+                nextBtn.style.display = "inline-block";
+            }, 200);
+        }
+
+        // 10 GRÜNDE
+        const reasons = [
+            "Du bringst Farbe in meinen grauen Alltag.",
+            "Deine Liebe reicht aus, um die gesamte Welt damit zu versorgen.",
+            "Deine direkte und ehrliche Art, du trägst dein Herz auf der Zunge.",
+            "Deine Fürsorglichkeit.",
+            "Du bist der witzigste Mensch den ich kenne mit dem besten Humor.",
+            "Du bist die attraktivste Frau auf dieser Erde, ich bin verrückt nach dir.",
+            "Du strebst nach einem rechtschaffenen, gottgefälligen Leben.",
+            "Dein Grinsen wenn man dir schmeichelt.",
+            "Wenn du einfach du bist und singst, aufräumst, Kreuzworträtsel machst und ich dabei bin.",
+            "Deine Gabe Stille angenehm zu machen und gleichzeitig Langeweile zu brechen und einfach zu reden."
+        ];
+
+        const cardsContainer = document.getElementById('cards-container');
+        const flippedCards = new Set();
+
+        reasons.forEach((text, index) => {
             const card = document.createElement('div');
             card.className = 'flip-card';
+            
+            let fontSize = '0.82rem';
+            if (text.length > 70) fontSize = '0.68rem';
+            else if (text.length > 45) fontSize = '0.75rem';
+
             card.innerHTML = `
                 <div class="flip-card-inner">
-                    <div class="flip-card-front">${index + 1}</div>
-                    <div class="flip-card-back">${grund}</div>
+                    <div class="flip-card-front">
+                        #${index + 1} 💜
+                    </div>
+                    <div class="flip-card-back" style="font-size: ${fontSize};">
+                        ${text}
+                    </div>
                 </div>
             `;
-            card.addEventListener('click', function() {
-                if (!this.classList.contains('flipped')) {
-                    this.classList.add('flipped');
-                    flippedCount++;
-                    if (flippedCount === gruende.length) {
-                        document.getElementById('special-card-box').style.display = "block";
-                        document.getElementById('slide3-next').style.display = "block";
-                    }
+
+            card.addEventListener('click', () => {
+                card.classList.toggle('flipped');
+                if(card.classList.contains('flipped')) {
+                    flippedCards.add(index);
+                }
+
+                if (flippedCards.size === reasons.length) {
+                    document.getElementById('special-card-box').style.display = 'block';
+                    document.getElementById('slide3-next').style.display = 'inline-block';
                 }
             });
+
             cardsContainer.appendChild(card);
         });
 
-        // --- 5. THERMOMETER (HOLD BUTTON) ---
-        const holdButton = document.getElementById('hold-button');
-        const holdProgress = document.getElementById('hold-progress');
-        const thermoVal = document.getElementById('thermo-val');
-        const secretMessage = document.getElementById('secret-message');
-        let holdInterval;
-        let holdValue = 0;
+        // THERMOMETER
+        function startThermoAnim() {
+            const thermoVal = document.getElementById('thermo-val');
+            const temps = ['36°C', '50°C', '100°C', '999°C 🔥'];
+            let idx = 0;
 
-        const startHold = (e) => {
-            e.preventDefault();
-            holdInterval = setInterval(() => {
-                holdValue += 2;
-                holdProgress.style.width = holdValue + "%";
-                thermoVal.innerText = (36 + Math.floor(holdValue / 2)) + "°C";
-                
-                if (holdValue >= 100) {
-                    clearInterval(holdInterval);
-                    thermoVal.innerText = "🔥 Heiß!";
-                    secretMessage.innerText = "Ich liebe dich unendlich! 💜";
+            const interval = setInterval(() => {
+                idx++;
+                if (idx < temps.length) {
+                    thermoVal.innerText = temps[idx];
+                } else {
+                    clearInterval(interval);
                 }
-            }, 40);
-        };
+            }, 800);
+        }
 
-        const stopHold = (e) => {
-            e.preventDefault();
-            clearInterval(holdInterval);
-            if (holdValue < 100) {
-                holdValue = 0;
-                holdProgress.style.width = "0%";
-                thermoVal.innerText = "36°C";
-            }
-        };
+        // GEHEIMNACHRICHT BUTTON
+        const holdBtn = document.getElementById('hold-button');
+        const holdProgress = document.getElementById('hold-progress');
+        const secretMsg = document.getElementById('secret-message');
+        let progressInterval = null;
+        let holdTime = 0;
 
-        holdButton.addEventListener('mousedown', startHold);
-        holdButton.addEventListener('touchstart', startHold);
-        holdButton.addEventListener('mouseup', stopHold);
-        holdButton.addEventListener('mouseleave', stopHold);
-        holdButton.addEventListener('touchend', stopHold);
+        function startHold(e) {
+            if (e.type === 'touchstart') e.preventDefault();
+            holdTime = 0;
+            holdProgress.style.width = '0%';
+            progressInterval = setInterval(() => {
+                holdTime += 100;
+                holdProgress.style.width = (holdTime / 2500) * 100 + '%';
+                if (holdTime >= 2500) {
+                    clearInterval(progressInterval);
+                    secretMsg.innerText = "✨ Du bist das Schönste, was mir je passiert ist!";
+                }
+            }, 100);
+        }
 
-        // --- 6. BAROMETER ---
+        function endHold() {
+            clearInterval(progressInterval);
+            if (holdTime < 2500) holdProgress.style.width = '0%';
+        }
+
+        holdBtn.addEventListener('mousedown', startHold);
+        holdBtn.addEventListener('mouseup', endHold);
+        holdBtn.addEventListener('mouseleave', endHold);
+        holdBtn.addEventListener('touchstart', startHold);
+        holdBtn.addEventListener('touchend', endHold);
+
+        // BAROMETER
         function runBarometer() {
             const bar = document.getElementById('barometer-bar');
             const text = document.getElementById('barometer-text');
-            const errorMsg = document.getElementById('error-message');
-            document.getElementById('start-barometer-btn').style.display = 'none';
+            const error = document.getElementById('error-message');
+            const startBtn = document.getElementById('start-barometer-btn');
+            const nextBtn = document.getElementById('slide5-next');
 
-            let progress = 0;
-            const barInterval = setInterval(() => {
-                progress += 5;
-                if (progress <= 100) {
-                    bar.style.width = progress + "%";
-                    text.innerText = progress + " %";
-                } else if (progress <= 300) {
-                    text.innerText = Math.floor(progress * 3.5) + " %";
+            startBtn.style.display = 'none';
+
+            const steps = [
+                { pct: '10 %', width: '10%' },
+                { pct: '50 %', width: '50%' },
+                { pct: '90 %', width: '90%' },
+                { pct: '100 %', width: '100%' },
+                { pct: '1000 %', width: '100%' },
+                { pct: '10000 %', width: '100%' },
+                { pct: '999999 %', width: '100%' }
+            ];
+
+            let stepIdx = 0;
+            const interval = setInterval(() => {
+                if (stepIdx < steps.length) {
+                    text.innerText = steps[stepIdx].pct;
+                    bar.style.width = steps[stepIdx].width;
+                    stepIdx++;
                 } else {
-                    clearInterval(barInterval);
-                    text.innerText = "ERROR";
-                    text.style.color = "var(--accent-red)";
-                    errorMsg.innerText = "Systemüberlastung! Die Liebe ist zu groß, um sie zu messen! 💥💜";
-                    document.getElementById('slide5-next').style.display = "block";
+                    clearInterval(interval);
+                    text.innerText = "⚠️ ERROR";
+                    text.style.color = "#e04870";
+                    error.innerHTML = "Messfehler erkannt.<br>Die Skala reicht nicht aus.";
+                    nextBtn.style.display = 'inline-block';
                 }
-            }, 50);
+            }, 600);
         }
 
-        // --- 7. AUDIO FUNKTION FÜR "ÖFFNE MICH WENN" ---
-        function playSecretAudio(audioId) {
-            const playerBox = document.getElementById('audio-player-box');
-            const audioEl = document.getElementById('current-audio');
-            const titleEl = document.getElementById('audio-title-text');
-            
-            playerBox.style.display = 'flex';
-            
-            // Beispieldateien, ersetze sie durch deine eigenen echten Dateinamen
-            const audioFiles = {
-                'audio1': { src: 'traurig.mp3', text: 'Nachricht für traurige Momente 🎧' },
-                'audio2': { src: 'gluecklich.mp3', text: 'Nachricht für glückliche Momente 🎧' },
-                'audio3': { src: 'schlafen.mp3', text: 'Nachricht zum Einschlafen 🎧' },
-                'audio4': { src: 'vermissen.mp3', text: 'Wenn du mich vermisst 🎧' }
-            };
+        // PARTICLES
+        const canvas = document.getElementById('canvas-particles');
+        const ctx = canvas.getContext('2d');
 
-            const selected = audioFiles[audioId];
-            if (selected) {
-                titleEl.innerText = selected.text;
-                audioEl.src = selected.src;
-                audioEl.play().catch(e => console.log("Audio nicht gefunden oder blockiert."));
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const heartIcons = ['💜', '💜', '💜', '🤍', '✨'];
+        const particles = [];
+
+        class HeartParticle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 20;
+                this.size = Math.random() * 12 + 8;
+                this.speedY = Math.random() * 1.5 + 0.5;
+                this.opacity = Math.random() * 0.4 + 0.2;
+                this.swing = Math.random() * 0.05;
+                this.angle = Math.random() * Math.PI * 2;
+                this.icon = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+            }
+            update() {
+                this.y -= this.speedY;
+                this.angle += this.swing;
+                this.x += Math.sin(this.angle) * 0.5;
+                if (this.y < -20) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.font = `${this.size}px serif`;
+                ctx.fillText(this.icon, this.x, this.y);
+                ctx.restore();
             }
         }
 
-        // --- 8. FALLBACK FÜR FOTO ---
-        function tryNextImage(img) {
-            // Falls foto.jpg nicht geht, versuche png oder webp
-            if (img.src.endsWith('foto.jpg')) img.src = 'foto.png';
-            else if (img.src.endsWith('foto.png')) img.src = 'foto.webp';
-            else img.style.display = 'none'; // Verstecken, wenn kein Bild existiert
+        for (let i = 0; i < 24; i++) {
+            particles.push(new HeartParticle());
         }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
     </script>
 </body>
 </html>
